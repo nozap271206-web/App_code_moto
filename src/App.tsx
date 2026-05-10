@@ -1,21 +1,36 @@
 import { useEffect, useMemo, useState } from 'react';
 import { QUESTIONS } from './data/questions';
-import { THEMES, type Answer, type Question, type Theme } from './types';
+import { THEMES, type Answer, type Question, type Theme, type ThemeStat } from './types';
+import { Sign } from './components/Signs';
 
 type Screen =
   | { name: 'home' }
   | { name: 'theme-pick'; mode: 'train' }
-  | { name: 'quiz'; questions: Question[]; mode: 'train' | 'exam'; title: string }
+  | { name: 'exam-config' }
+  | { name: 'quiz'; questions: Question[]; mode: 'train' | 'exam'; title: string; chrono: boolean }
   | { name: 'results'; answers: Answer[]; questions: Question[]; mode: 'train' | 'exam'; title: string }
-  | { name: 'review-errors' };
+  | { name: 'review-errors' }
+  | { name: 'stats' };
 
-const STORAGE_KEY = 'codemoto.errors.v1';
+const ERR_KEY = 'codemoto.errors.v1';
+const STATS_KEY = 'codemoto.stats.v1';
+const CHRONO_SECONDS = 20;
 
 function loadErrors(): Record<string, number> {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { return {}; }
+  try { return JSON.parse(localStorage.getItem(ERR_KEY) || '{}'); } catch { return {}; }
 }
 function saveErrors(e: Record<string, number>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(e));
+  localStorage.setItem(ERR_KEY, JSON.stringify(e));
+}
+function loadStats(): Record<Theme, ThemeStat> {
+  const empty = Object.fromEntries((Object.keys(THEMES) as Theme[]).map(t => [t, { attempts: 0, correct: 0 }])) as Record<Theme, ThemeStat>;
+  try {
+    const stored = JSON.parse(localStorage.getItem(STATS_KEY) || '{}');
+    return { ...empty, ...stored };
+  } catch { return empty; }
+}
+function saveStats(s: Record<Theme, ThemeStat>) {
+  localStorage.setItem(STATS_KEY, JSON.stringify(s));
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -53,11 +68,9 @@ export default function App() {
         <Home
           errorCount={Object.keys(errorStore).length}
           onTrain={() => setScreen({ name: 'theme-pick', mode: 'train' })}
-          onExam={() => {
-            const qs = shuffle(QUESTIONS).slice(0, 40);
-            setScreen({ name: 'quiz', questions: qs, mode: 'exam', title: 'Examen blanc ETM (40 questions)' });
-          }}
+          onExam={() => setScreen({ name: 'exam-config' })}
           onReview={() => setScreen({ name: 'review-errors' })}
+          onStats={() => setScreen({ name: 'stats' })}
         />
       )}
 
@@ -65,11 +78,21 @@ export default function App() {
         <ThemePick
           onPick={(t) => {
             const qs = shuffle(QUESTIONS.filter(q => q.theme === t));
-            setScreen({ name: 'quiz', questions: qs, mode: 'train', title: `Thème ${t} — ${THEMES[t].short}` });
+            setScreen({ name: 'quiz', questions: qs, mode: 'train', title: `Thème ${t} — ${THEMES[t].short}`, chrono: false });
           }}
           onAll={() => {
             const qs = shuffle(QUESTIONS);
-            setScreen({ name: 'quiz', questions: qs, mode: 'train', title: 'Entraînement libre — tous thèmes' });
+            setScreen({ name: 'quiz', questions: qs, mode: 'train', title: 'Entraînement libre — tous thèmes', chrono: false });
+          }}
+          onBack={() => setScreen({ name: 'home' })}
+        />
+      )}
+
+      {screen.name === 'exam-config' && (
+        <ExamConfig
+          onStart={(chrono) => {
+            const qs = shuffle(QUESTIONS).slice(0, 40);
+            setScreen({ name: 'quiz', questions: qs, mode: 'exam', title: 'Examen blanc ETM (40 questions)', chrono });
           }}
           onBack={() => setScreen({ name: 'home' })}
         />
@@ -80,13 +103,23 @@ export default function App() {
           questions={screen.questions}
           mode={screen.mode}
           title={screen.title}
+          chrono={screen.chrono}
           onDone={(answers) => {
-            const next = { ...errorStore };
+            // erreurs
+            const nextErr = { ...errorStore };
             for (const a of answers) {
-              if (!a.correct) next[a.questionId] = (next[a.questionId] || 0) + 1;
-              else if (next[a.questionId]) delete next[a.questionId];
+              if (!a.correct) nextErr[a.questionId] = (nextErr[a.questionId] || 0) + 1;
+              else if (nextErr[a.questionId]) delete nextErr[a.questionId];
             }
-            saveErrors(next);
+            saveErrors(nextErr);
+            // stats par thème
+            const stats = loadStats();
+            for (const a of answers) {
+              const q = screen.questions.find(x => x.id === a.questionId)!;
+              stats[q.theme].attempts += 1;
+              if (a.correct) stats[q.theme].correct += 1;
+            }
+            saveStats(stats);
             setScreen({ name: 'results', answers, questions: screen.questions, mode: screen.mode, title: screen.title });
           }}
           onAbort={() => setScreen({ name: 'home' })}
@@ -101,7 +134,7 @@ export default function App() {
             const wrongIds = new Set(screen.answers.filter(a => !a.correct).map(a => a.questionId));
             const qs = screen.questions.filter(q => wrongIds.has(q.id));
             if (qs.length === 0) setScreen({ name: 'home' });
-            else setScreen({ name: 'quiz', questions: shuffle(qs), mode: 'train', title: 'Reprise des erreurs' });
+            else setScreen({ name: 'quiz', questions: shuffle(qs), mode: 'train', title: 'Reprise des erreurs', chrono: false });
           }}
         />
       )}
@@ -109,9 +142,16 @@ export default function App() {
       {screen.name === 'review-errors' && (
         <ReviewErrors
           errors={errorStore}
-          onStart={(qs) => setScreen({ name: 'quiz', questions: shuffle(qs), mode: 'train', title: 'Révision des erreurs' })}
+          onStart={(qs) => setScreen({ name: 'quiz', questions: shuffle(qs), mode: 'train', title: 'Révision des erreurs', chrono: false })}
           onClear={() => { saveErrors({}); setScreen({ name: 'home' }); }}
           onBack={() => setScreen({ name: 'home' })}
+        />
+      )}
+
+      {screen.name === 'stats' && (
+        <Stats
+          onBack={() => setScreen({ name: 'home' })}
+          onReset={() => { saveStats(loadStats()); localStorage.removeItem(STATS_KEY); setScreen({ name: 'home' }); }}
         />
       )}
 
@@ -122,19 +162,20 @@ export default function App() {
   );
 }
 
-function Home({ errorCount, onTrain, onExam, onReview }: {
+function Home({ errorCount, onTrain, onExam, onReview, onStats }: {
   errorCount: number;
   onTrain: () => void;
   onExam: () => void;
   onReview: () => void;
+  onStats: () => void;
 }) {
   return (
     <div className="space-y-3">
       <h1 className="text-2xl font-bold">Révise ton code moto</h1>
-      <p className="text-slate-400 text-sm">Trois modes : entraînement par thème, examen blanc (40 questions, ≤ 5 erreurs pour valider), reprise de tes erreurs.</p>
+      <p className="text-slate-400 text-sm">Entraînement par thème, examen blanc (40 questions, ≤ 5 erreurs), carnet d'erreurs et statistiques.</p>
       <div className="grid gap-3 mt-4">
         <Tile title="Entraînement" subtitle="Par thème ou tous mélangés" onClick={onTrain} accent="bg-amber-500" />
-        <Tile title="Examen blanc" subtitle="40 questions, conditions ETM" onClick={onExam} accent="bg-rose-500" />
+        <Tile title="Examen blanc" subtitle="40 questions, mode chrono optionnel" onClick={onExam} accent="bg-rose-500" />
         <Tile
           title="Mes erreurs"
           subtitle={errorCount === 0 ? 'Aucune erreur enregistrée' : `${errorCount} question(s) à revoir`}
@@ -142,6 +183,7 @@ function Home({ errorCount, onTrain, onExam, onReview }: {
           accent="bg-sky-500"
           disabled={errorCount === 0}
         />
+        <Tile title="Statistiques" subtitle="Taux de réussite par thème" onClick={onStats} accent="bg-emerald-500" />
       </div>
     </div>
   );
@@ -154,7 +196,7 @@ function Tile({ title, subtitle, onClick, accent, disabled }: {
     <button
       onClick={onClick}
       disabled={disabled}
-      className={`text-left p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 transition disabled:opacity-40 disabled:cursor-not-allowed`}
+      className="text-left p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 transition disabled:opacity-40 disabled:cursor-not-allowed"
     >
       <div className="flex items-center gap-3">
         <span className={`w-2 h-10 rounded ${accent}`}></span>
@@ -198,17 +240,65 @@ function ThemePick({ onPick, onAll, onBack }: { onPick: (t: Theme) => void; onAl
   );
 }
 
-function Quiz({ questions, mode, title, onDone, onAbort }: {
-  questions: Question[]; mode: 'train' | 'exam'; title: string;
+function ExamConfig({ onStart, onBack }: { onStart: (chrono: boolean) => void; onBack: () => void }) {
+  return (
+    <div className="space-y-4">
+      <button onClick={onBack} className="text-xs text-slate-400">← retour</button>
+      <h2 className="text-xl font-bold">Examen blanc</h2>
+      <p className="text-sm text-slate-400">
+        40 questions tirées au hasard. Seuil de réussite ETM : <span className="text-amber-400 font-semibold">≤ 5 erreurs</span>.
+      </p>
+      <div className="space-y-2">
+        <button
+          onClick={() => onStart(false)}
+          className="w-full p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500 text-left"
+        >
+          <div className="font-semibold">Mode classique</div>
+          <div className="text-xs text-slate-400">Sans limite de temps par question.</div>
+        </button>
+        <button
+          onClick={() => onStart(true)}
+          className="w-full p-4 rounded-xl bg-slate-900 border border-rose-700 hover:border-rose-500 text-left"
+        >
+          <div className="font-semibold">Mode chrono (réaliste)</div>
+          <div className="text-xs text-slate-400">{CHRONO_SECONDS} s par question, validation automatique à 0.</div>
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function Quiz({ questions, mode, title, chrono, onDone, onAbort }: {
+  questions: Question[]; mode: 'train' | 'exam'; title: string; chrono: boolean;
   onDone: (a: Answer[]) => void; onAbort: () => void;
 }) {
   const [i, setI] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [selected, setSelected] = useState<number[]>([]);
   const [validated, setValidated] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(CHRONO_SECONDS);
 
   const q = questions[i];
   const multi = q.correct.length > 1;
+  const useChrono = chrono && mode === 'exam';
+
+  useEffect(() => {
+    setTimeLeft(CHRONO_SECONDS);
+  }, [i]);
+
+  useEffect(() => {
+    if (!useChrono) return;
+    if (timeLeft <= 0) {
+      // auto-validation (même si rien de sélectionné, on enregistre faux)
+      const correct = arraysEqual(selected, q.correct) && selected.length > 0;
+      const all = [...answers, { questionId: q.id, selected, correct }];
+      if (i + 1 >= questions.length) onDone(all);
+      else { setAnswers(all); setI(i + 1); setSelected([]); }
+      return;
+    }
+    const t = setTimeout(() => setTimeLeft(s => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [timeLeft, useChrono]);
 
   function toggle(idx: number) {
     if (validated) return;
@@ -250,8 +340,29 @@ function Quiz({ questions, mode, title, onDone, onAbort }: {
         <div className="h-1 bg-amber-500 rounded transition-all" style={{ width: `${((i + 1) / questions.length) * 100}%` }} />
       </div>
 
+      {useChrono && (
+        <div className="flex items-center gap-2">
+          <div className="flex-1 h-2 bg-slate-800 rounded overflow-hidden">
+            <div
+              className={`h-2 transition-all ${timeLeft <= 5 ? 'bg-rose-500' : 'bg-emerald-500'}`}
+              style={{ width: `${(timeLeft / CHRONO_SECONDS) * 100}%` }}
+            />
+          </div>
+          <span className={`text-sm font-mono ${timeLeft <= 5 ? 'text-rose-400' : 'text-slate-300'}`}>{timeLeft}s</span>
+        </div>
+      )}
+
       <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
         <div className="text-xs text-amber-400 mb-1">Thème {q.theme} {multi && '· plusieurs bonnes réponses'}</div>
+
+        {q.sign && (
+          <div className="flex justify-center my-3">
+            <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
+              <Sign k={q.sign} size={120} />
+            </div>
+          </div>
+        )}
+
         <div className="font-semibold mb-4">{q.prompt}</div>
         <div className="space-y-2">
           {q.choices.map((c, idx) => {
@@ -390,6 +501,51 @@ function ReviewErrors({ errors, onStart, onClear, onBack }: {
             Effacer mon carnet d'erreurs
           </button>
         </>
+      )}
+    </div>
+  );
+}
+
+function Stats({ onBack, onReset }: { onBack: () => void; onReset: () => void }) {
+  const stats = loadStats();
+  const totalAttempts = Object.values(stats).reduce((s, t) => s + t.attempts, 0);
+  const totalCorrect = Object.values(stats).reduce((s, t) => s + t.correct, 0);
+  const overall = totalAttempts ? Math.round((totalCorrect / totalAttempts) * 100) : 0;
+
+  return (
+    <div className="space-y-3">
+      <button onClick={onBack} className="text-xs text-slate-400">← retour</button>
+      <h2 className="text-xl font-bold">Statistiques</h2>
+
+      <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
+        <div className="text-xs text-slate-400">Score global</div>
+        <div className="text-3xl font-bold">{overall}%</div>
+        <div className="text-xs text-slate-500">{totalCorrect} bonnes / {totalAttempts} tentatives</div>
+      </div>
+
+      <div className="space-y-2">
+        {(Object.keys(THEMES) as Theme[]).map(t => {
+          const s = stats[t];
+          const pct = s.attempts ? Math.round((s.correct / s.attempts) * 100) : 0;
+          const color = !s.attempts ? 'bg-slate-700' : pct >= 80 ? 'bg-emerald-500' : pct >= 50 ? 'bg-amber-500' : 'bg-rose-500';
+          return (
+            <div key={t} className="p-3 rounded-lg bg-slate-900 border border-slate-800">
+              <div className="flex items-baseline justify-between mb-1">
+                <span className="text-sm"><span className="font-bold text-amber-400">{t}</span> · {THEMES[t].short}</span>
+                <span className="text-xs text-slate-400">{s.attempts === 0 ? '—' : `${pct}%`} · {s.correct}/{s.attempts}</span>
+              </div>
+              <div className="w-full h-2 bg-slate-800 rounded overflow-hidden">
+                <div className={`h-2 ${color}`} style={{ width: `${pct}%` }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {totalAttempts > 0 && (
+        <button onClick={onReset} className="w-full p-2 text-xs text-slate-400 underline">
+          Réinitialiser les statistiques
+        </button>
       )}
     </div>
   );

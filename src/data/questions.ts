@@ -457,5 +457,582 @@ export const QUESTIONS: Question[] = [
     choices: ['Doit être lâche pour respirer', 'Doit être serrée — un doigt passe sous la sangle', 'Peut être déclipsée en roulant', 'N\'est pas obligatoire'],
     correct: [1],
     explanation: "Casque mal attaché = pas de casque sur le plan légal et de la protection. Conduire casque non attaché = 135 € + 3 points."
+  },
+
+  // ===== Lot 2 — Signalisation & règles approfondies =====
+
+  // Panneaux — thème C
+  {
+    id: 'C10', theme: 'C', sign: 'stop',
+    prompt: "Devant ce panneau, vous devez :",
+    choices: ['Ralentir seulement', 'Marquer l\'arrêt complet pieds posés', 'Céder le passage sans s\'arrêter', 'Klaxonner avant de passer'],
+    correct: [1],
+    explanation: "Le panneau STOP impose un arrêt absolu à la ligne d'effet ; à moto, pied posé au sol et roue immobile."
+  },
+  {
+    id: 'C11', theme: 'C', sign: 'cedez',
+    prompt: "Ce panneau signifie :",
+    choices: ['Stop obligatoire', 'Céder le passage : ralentir et s\'arrêter si nécessaire', 'Vous avez la priorité', 'Sens interdit'],
+    correct: [1],
+    explanation: "« Cédez le passage » : on n'est pas obligé de s'arrêter si la voie est libre, mais on doit laisser passer tous les autres usagers."
+  },
+  {
+    id: 'C12', theme: 'C', sign: 'sens-interdit',
+    prompt: "Ce panneau interdit :",
+    choices: ['Le stationnement', 'L\'accès à la voie pour tous les véhicules', 'Le dépassement', 'Uniquement les poids lourds'],
+    correct: [1],
+    explanation: "Sens interdit à tout véhicule. Y entrer = 135 € + 4 points et risque majeur de collision frontale."
+  },
+  {
+    id: 'C13', theme: 'C', sign: 'route-prioritaire',
+    prompt: "Ce panneau (carré jaune sur pointe) indique :",
+    choices: ['Vous êtes sur une route prioritaire', 'Fin de route prioritaire', 'Cédez le passage', 'Aucune signification'],
+    correct: [0],
+    explanation: "Le losange jaune indique une route à caractère prioritaire : priorité sur les voies sécantes sauf indication contraire."
+  },
+  {
+    id: 'C14', theme: 'C', sign: 'fin-prioritaire',
+    prompt: "Ce panneau (losange jaune barré) signifie :",
+    choices: ['Stop', 'Fin de route prioritaire — vigilance aux intersections', 'Sens interdit', 'Voie réservée'],
+    correct: [1],
+    explanation: "Au prochain carrefour, la priorité à droite redevient la règle, sauf signalisation contraire."
+  },
+  {
+    id: 'C15', theme: 'C', sign: 'danger',
+    prompt: "Ce panneau triangulaire avec un point d'exclamation signifie :",
+    choices: ['Sens interdit', 'Autre danger : ralentir et redoubler de vigilance', 'Stop obligatoire', 'Travaux'],
+    correct: [1],
+    explanation: "« Autres dangers » : un panonceau placé en dessous précise généralement la nature exacte du danger."
+  },
+  {
+    id: 'C16', theme: 'C', sign: 'chaussee-glissante',
+    prompt: "Ce panneau indique :",
+    choices: ['Chaussée glissante', 'Vent latéral', 'Travaux', 'Verglas'],
+    correct: [0],
+    explanation: "Chaussée glissante : à moto, ralentir nettement, éviter freinage brutal et angle d'inclinaison important."
+  },
+  {
+    id: 'C17', theme: 'C', sign: 'limite-50',
+    prompt: "Devant ce panneau :",
+    choices: ['Vitesse minimale 50 km/h', 'Vitesse maximale 50 km/h', 'Indication kilométrique', 'Distance recommandée 50 m'],
+    correct: [1],
+    explanation: "Cercle rouge + chiffre noir = interdiction : vitesse plafond. Au-delà = excès de vitesse."
+  },
+  {
+    id: 'C18', theme: 'C', sign: 'fin-limitation',
+    prompt: "Ce panneau (cercle blanc barré) signifie :",
+    choices: ['Fin de la limitation de vitesse précédemment indiquée', 'Limitation à 50 km/h', 'Sens interdit', 'Fin d\'agglomération'],
+    correct: [0],
+    explanation: "Cercle blanc + chiffre barré : la limitation spécifique se termine ; on revient à la vitesse réglementaire générale de la voie."
+  },
+  {
+    id: 'C19', theme: 'C', sign: 'agglo-entree',
+    prompt: "Ce panneau d'entrée d'agglomération impose par défaut :",
+    choices: ['90 km/h', '70 km/h', '50 km/h', '30 km/h'],
+    correct: [2],
+    explanation: "Entrée d'agglomération = 50 km/h par défaut (sauf indication contraire ou zone 30/aire piétonne)."
+  },
+  {
+    id: 'C20', theme: 'C', sign: 'autoroute',
+    prompt: "Sur une moto A2 (limitée à 35 kW), peut-on rouler sur autoroute ?",
+    choices: ['Non, interdit en A2', 'Oui, à condition de respecter les vitesses maxi', 'Oui seulement la nuit', 'Uniquement sur voie rapide'],
+    correct: [1],
+    explanation: "Le permis A2 autorise toutes les voies (autoroute comprise) avec une machine A2-bridée et un EPI conforme."
+  },
+  {
+    id: 'C21', theme: 'C', sign: 'zone-30',
+    prompt: "Dans une zone 30 :",
+    choices: ['Vitesse maxi 30 km/h, priorité piétons élargie', 'Vitesse minimale 30 km/h', 'Stationnement interdit', 'Zone interdite aux motos'],
+    correct: [0],
+    explanation: "Zone 30 : vitesse plafond 30 km/h, piétons prioritaires, double sens cyclable par défaut, vigilance accrue."
+  },
+  {
+    id: 'C22', theme: 'C', sign: 'aire-pietonne',
+    prompt: "Une aire piétonne autorise les motos à :",
+    choices: ['Rouler à 30 km/h', 'Y rouler au pas, en cédant la priorité aux piétons', 'Stationner librement', 'Y entrer librement'],
+    correct: [1],
+    explanation: "Dans une aire piétonne, seuls quelques véhicules autorisés peuvent circuler, au pas et piétons prioritaires."
+  },
+  {
+    id: 'C23', theme: 'C', sign: 'sens-giratoire',
+    prompt: "Face à ce panneau (rond bleu, flèches tournantes) :",
+    choices: ['Vous avez la priorité', 'Vous abordez un carrefour à sens giratoire et cédez le passage aux usagers déjà engagés', 'Demi-tour interdit', 'Aucune indication'],
+    correct: [1],
+    explanation: "Le « giratoire » impose à l'usager entrant de céder le passage à ceux qui y circulent (sauf carrefour à priorité à droite très rare)."
+  },
+  {
+    id: 'C24', theme: 'C', sign: 'priorite-droite',
+    prompt: "Ce panneau triangulaire avec flèches indique :",
+    choices: ['Vous avez la priorité', 'Carrefour à priorité à droite — vigilance accrue', 'Sens unique', 'Voie réservée bus'],
+    correct: [1],
+    explanation: "Annonce un carrefour où la règle de priorité à droite s'applique : tout véhicule arrivant à votre droite est prioritaire."
+  },
+
+  // A — règles juridiques
+  {
+    id: 'A10', theme: 'A',
+    prompt: "Le permis A (toutes cylindrées) sans passer par A2 est accessible directement à partir de :",
+    choices: ['18 ans', '21 ans', '24 ans', '25 ans'],
+    correct: [2],
+    explanation: "Accès direct au permis A à 24 ans ; sinon, passerelle A2 → A après 2 ans + 7 h de formation."
+  },
+  {
+    id: 'A11', theme: 'A',
+    prompt: "Conduire sans permis correspondant à la catégorie du véhicule est :",
+    choices: ['Une contravention', 'Un délit puni jusqu\'à 15 000 € et 1 an de prison', 'Sans conséquence', 'Une simple amende administrative'],
+    correct: [1],
+    explanation: "Délit : amende, immobilisation du véhicule, confiscation possible et inscription au casier."
+  },
+  {
+    id: 'A12', theme: 'A',
+    prompt: "Un excès de vitesse > 50 km/h au-dessus de la limite est :",
+    choices: ['Une contravention de 4e classe', 'Une contravention de 5e classe : 1 500 €, 6 points, suspension du permis', 'Un simple PV', 'Aucune sanction si récidive'],
+    correct: [1],
+    explanation: "Contravention de 5e classe : 1 500 € (3 000 € en récidive), retrait de 6 points, suspension jusqu'à 3 ans, confiscation possible du véhicule en récidive (= délit)."
+  },
+  {
+    id: 'A13', theme: 'A',
+    prompt: "Le franchissement d'une ligne continue se sanctionne par :",
+    choices: ['90 € et 3 points', '135 € et 3 points', '375 € et 6 points', 'Aucune sanction'],
+    correct: [1],
+    explanation: "Contravention 4e classe : 135 € + 3 points. À moto, c'est aussi un facteur d'accidents par collision frontale."
+  },
+  {
+    id: 'A14', theme: 'A',
+    prompt: "La récupération automatique de la totalité des points en l'absence d'infraction prend :",
+    choices: ['6 mois', '1 an', '2 ans (3 si infraction de 4e/5e classe)', '5 ans'],
+    correct: [2],
+    explanation: "Permis non probatoire : 2 ans sans infraction pour récupérer tous les points (3 ans si la dernière infraction était de 4e ou 5e classe)."
+  },
+  {
+    id: 'A15', theme: 'A',
+    prompt: "Brûler un feu rouge à moto :",
+    choices: ['68 € et 0 point', '135 € et 4 points', '375 € et 6 points', 'Aucune sanction'],
+    correct: [1],
+    explanation: "Non-respect d'un feu rouge fixe : 135 € + 4 points, suspension possible. À moto, risque d'angle mort et de collision latérale."
+  },
+
+  // B — conducteur
+  {
+    id: 'B08', theme: 'B',
+    prompt: "Après une nuit blanche, les capacités de conduite sont comparables à :",
+    choices: ['Un jour normal', 'Un état d\'alcoolémie modérée', 'Une meilleure vigilance', 'Aucun effet'],
+    correct: [1],
+    explanation: "17 h sans sommeil ≈ 0,5 g/L d'alcool ; 24 h sans sommeil ≈ 1 g/L. Ne pas prendre la moto sans repos."
+  },
+  {
+    id: 'B09', theme: 'B',
+    prompt: "Une bonne vision périphérique permet au motard :",
+    choices: ['De rouler plus vite', 'De détecter les véhicules sur les côtés et anticiper', 'De réduire le port du casque', 'Sans effet sur la sécurité'],
+    correct: [1],
+    explanation: "La vision latérale détecte mouvements et silhouettes ; fatigue et stress la réduisent (vision tunnel)."
+  },
+  {
+    id: 'B10', theme: 'B',
+    prompt: "Le froid intense en moto :",
+    choices: ['Ne change rien', 'Réduit la précision des gestes et la concentration', 'Améliore la vigilance', 'Renforce l\'adhérence'],
+    correct: [1],
+    explanation: "Le froid ankylose, raidit les muscles et brouille la concentration. EPI hiver, pauses et boissons chaudes."
+  },
+  {
+    id: 'B11', theme: 'B',
+    prompt: "Conduire avec une émotion forte (colère, deuil, dispute) :",
+    choices: ['N\'a pas d\'impact', 'Augmente le risque d\'accident par déconcentration', 'Améliore les réflexes', 'Réduit la fatigue'],
+    correct: [1],
+    explanation: "Les émotions fortes accaparent l'attention. Pour un trajet moto, se calmer ou différer le départ."
+  },
+  {
+    id: 'B12', theme: 'B',
+    prompt: "L'alcool dans le sang s'élimine à raison d'environ :",
+    choices: ['0,1 g/L par heure', '0,5 g/L par heure', '1 g/L par heure', '0,02 g/L par heure'],
+    correct: [0],
+    explanation: "Élimination ~0,10 à 0,15 g/L par heure ; aucune méthode (café, douche froide…) n'accélère le processus."
+  },
+  {
+    id: 'B13', theme: 'B',
+    prompt: "Le port d'écouteurs ou oreillette en conduisant est :",
+    choices: ['Autorisé', 'Interdit : 135 € et 3 points', 'Toléré à un seul côté', 'Réservé aux GPS'],
+    correct: [1],
+    explanation: "Depuis 2015, tout dispositif émettant un son dans l'oreille est interdit (écouteurs, oreillettes). Intercom intégré au casque autorisé."
+  },
+
+  // C — route / vitesses
+  {
+    id: 'C25', theme: 'C', sign: 'limite-30',
+    prompt: "Une rue avec ce panneau implique :",
+    choices: ['30 km/h maximum', '30 km/h conseillé', '30 minutes de stationnement', 'Aucune signification'],
+    correct: [0],
+    explanation: "Limitation stricte à 30 km/h, fréquente en abords d'écoles, zones résidentielles, voiries apaisées."
+  },
+  {
+    id: 'C26', theme: 'C', sign: 'limite-70',
+    prompt: "Devant ce panneau, la vitesse maximale est :",
+    choices: ['50 km/h', '70 km/h', '90 km/h', '110 km/h'],
+    correct: [1],
+    explanation: "Plafond 70 km/h jusqu'au prochain panneau de fin de limitation ou d'une autre limitation."
+  },
+  {
+    id: 'C27', theme: 'C',
+    prompt: "Sur autoroute, la vitesse minimale autorisée sur la voie de gauche par temps sec et de jour est :",
+    choices: ['50 km/h', '80 km/h', '110 km/h', 'Aucune'],
+    correct: [1],
+    explanation: "Vitesse minimale 80 km/h sur la voie de gauche (autoroute) par temps de visibilité normale, sauf bouchon."
+  },
+  {
+    id: 'C28', theme: 'C',
+    prompt: "Une moto peut-elle stationner sur un trottoir en France ?",
+    choices: ['Oui toujours', 'Non, c\'est interdit (très gênant) sauf emplacement matérialisé', 'Oui si elle est petite', 'Oui si la béquille est latérale'],
+    correct: [1],
+    explanation: "Stationnement très gênant sur trottoir : 135 €, enlèvement possible. Seuls les emplacements matérialisés sont autorisés."
+  },
+  {
+    id: 'C29', theme: 'C',
+    prompt: "Sur autoroute, en cas de panne, la première action est :",
+    choices: ['Sortir sur la voie pour faire signe', 'Se garer sur la bande d\'arrêt d\'urgence, mettre les feux de détresse, gilet jaune, et appeler depuis derrière la glissière', 'Réparer sur la voie de droite', 'Laisser la moto au milieu de la voie'],
+    correct: [1],
+    explanation: "BAU + warnings + gilet + appel via borne SOS (à environ 2 km) ou 112 — toujours en retrait derrière la glissière."
+  },
+  {
+    id: 'C30', theme: 'C',
+    prompt: "En tunnel, en cas de circulation à l'arrêt prolongé :",
+    choices: ['Couper le moteur', 'Allumer les feux de détresse et garder ses distances', 'Sortir du véhicule', 'Klaxonner'],
+    correct: [1],
+    explanation: "Warnings + distance (4 m mini) ; couper le moteur si arrêt prolongé. Ne quitter le véhicule qu'en cas d'incendie/évacuation."
+  },
+  {
+    id: 'C31', theme: 'C',
+    prompt: "Les feuilles mortes mouillées sur la chaussée :",
+    choices: ['Améliorent l\'adhérence', 'Sont aussi glissantes qu\'une plaque d\'huile', 'Sont sans effet sur une moto', 'Augmentent l\'adhérence'],
+    correct: [1],
+    explanation: "Adhérence quasi nulle ; éviter freinage et angle dessus. À franchir droit, gaz constant."
+  },
+  {
+    id: 'C32', theme: 'C',
+    prompt: "Avant un virage serré à moto, la technique est :",
+    choices: ['Freiner au milieu du virage', 'Ralentir avant, regarder loin, accélérer progressivement à la sortie', 'Freiner roue arrière dans le virage', 'Débrayer en plein virage'],
+    correct: [1],
+    explanation: "Trajectoire de sécurité : ralentir avant, point de corde retardé, regard loin, gaz progressif en sortie."
+  },
+
+  // D — autres usagers
+  {
+    id: 'D08', theme: 'D',
+    prompt: "Dans le rétroviseur d'une voiture, la moto :",
+    choices: ['Est toujours bien visible', 'Peut disparaître dans l\'angle mort, surtout à l\'arrière 3/4', 'Apparaît plus grande qu\'en réalité', 'Sort du champ uniquement à grande vitesse'],
+    correct: [1],
+    explanation: "Les angles morts d'une voiture cachent facilement une moto ; il faut éviter de s'y attarder, en particulier sur voies rapides."
+  },
+  {
+    id: 'D09', theme: 'D',
+    prompt: "Face à un véhicule qui clignote à gauche, le motard derrière doit :",
+    choices: ['Le dépasser à droite rapidement', 'Anticiper son changement de direction et adapter sa vitesse', 'Klaxonner', 'Forcer le passage'],
+    correct: [1],
+    explanation: "Anticipation : laisser de la marge, ralentir et préparer son propre placement."
+  },
+  {
+    id: 'D10', theme: 'D',
+    prompt: "Croiser un poids lourd sur route étroite peut générer :",
+    choices: ['Aucun effet', 'Un effet de souffle déstabilisant la moto', 'Une meilleure adhérence', 'Un vent porteur'],
+    correct: [1],
+    explanation: "L'appel d'air du PL chasse latéralement la moto ; serrer ses bras, regard fixé loin, vitesse modérée."
+  },
+  {
+    id: 'D11', theme: 'D',
+    prompt: "À une intersection, le danger principal pour le motard est :",
+    choices: ['Le vent', 'Le « refus de priorité » d\'un véhicule qui ne l\'a pas vu', 'L\'éclairage', 'Le bruit du moteur'],
+    correct: [1],
+    explanation: "Cause n°1 des accidents moto en agglo : voiture qui « n'a pas vu » la moto. Approcher en couverture de freinage, regard et placement actifs."
+  },
+  {
+    id: 'D12', theme: 'D',
+    prompt: "Un enfant à proximité de la chaussée :",
+    choices: ['Est prévisible', 'Peut surgir sans regarder ; ralentir et prévoir un freinage', 'Reste toujours sur le trottoir', 'N\'est pas concerné par les motos'],
+    correct: [1],
+    explanation: "Les enfants ne maîtrisent ni la vitesse ni les distances ; ralentissement et couverture de frein impératifs."
+  },
+  {
+    id: 'D13', theme: 'D',
+    prompt: "La circulation inter-files (CIF) pour motos en 2026 :",
+    choices: ['Est autorisée partout', 'Est autorisée dans certains départements et selon des règles strictes (vitesse, conditions)', 'Est totalement interdite', 'Concerne uniquement Paris'],
+    correct: [1],
+    explanation: "La CIF est généralisée après expérimentation, sur autoroutes/voies rapides à 2x2 voies en agglomération, avec règles précises (≤ 50 km/h, écart de 30 km/h, etc.)."
+  },
+
+  // E — réglementation
+  {
+    id: 'E06', theme: 'E',
+    prompt: "Le défaut de présentation du permis lors d'un contrôle :",
+    choices: ['Aucune sanction', 'Amende de 11 €, à régulariser sous 5 jours', 'Délit', 'Confiscation du véhicule'],
+    correct: [1],
+    explanation: "Forfait 11 € si le permis est valable mais oublié ; à présenter au commissariat sous 5 jours."
+  },
+  {
+    id: 'E07', theme: 'E',
+    prompt: "Une moto immatriculée doit présenter une plaque :",
+    choices: ['À l\'avant uniquement', 'À l\'arrière, dimensions et police homologuées', 'Sur le casque', 'Aucun panonceau'],
+    correct: [1],
+    explanation: "Plaque arrière obligatoire au format homologué ; sa modification ou son obstruction = 135 € + retrait de points."
+  },
+  {
+    id: 'E08', theme: 'E',
+    prompt: "Lors de l'achat d'une moto d'occasion, le vendeur doit fournir :",
+    choices: ['Certificat de cession + carte grise barrée + certificat de situation administrative (non-gage)', 'Un simple mail de confirmation', 'Uniquement la carte grise', 'Aucun document'],
+    correct: [0],
+    explanation: "Cession Cerfa 15776, carte grise barrée + datée + signée, certificat de non-gage de moins de 15 jours, contrôle technique en vigueur."
+  },
+  {
+    id: 'E09', theme: 'E',
+    prompt: "Modifier la moto (échappement, optique) sans homologation :",
+    choices: ['Sans risque', 'Peut entraîner immobilisation et non-couverture par l\'assurance', 'Est conseillé', 'N\'est pas réglementé'],
+    correct: [1],
+    explanation: "Toute modification doit conserver l'homologation. À défaut : amende, immobilisation, et nullité possible de la garantie en cas de sinistre."
+  },
+  {
+    id: 'E10', theme: 'E',
+    prompt: "À l'étranger en UE avec sa moto française :",
+    choices: ['On ne peut pas rouler', 'Le permis et l\'assurance français sont valables ; vérifier équipements et règles locales', 'Il faut un permis international', 'Le permis est suspendu'],
+    correct: [1],
+    explanation: "Permis et carte verte d'assurance valables dans l'UE ; certaines règles diffèrent (gilet jaune, éthylotest, vignettes, péages)."
+  },
+
+  // F — quitter le véhicule
+  {
+    id: 'F06', theme: 'F',
+    prompt: "Le bloque-disque s'utilise :",
+    choices: ['Sur le disque de frein, avec un rappel pour ne pas oublier de le retirer', 'Sur l\'axe de roue avant', 'Sur la chaîne uniquement', 'Sur la jugulaire du casque'],
+    correct: [0],
+    explanation: "Bloque-disque + cordon coloré pour ne pas oublier qu'il est en place — sinon : chute à la première poussée."
+  },
+  {
+    id: 'F07', theme: 'F',
+    prompt: "Stationner moto en zone bleue ou avec horodateur :",
+    choices: ['Toujours gratuit', 'Dépend de la commune ; respecter la signalisation locale', 'Réservé aux résidents', 'Interdit'],
+    correct: [1],
+    explanation: "Les conditions varient : zones bleues, payantes, gratuites motos selon la commune. La signalisation locale prime."
+  },
+  {
+    id: 'F08', theme: 'F',
+    prompt: "Garer une moto à proximité d'un passage piéton :",
+    choices: ['Toléré à 1 m', 'Interdit dans les 5 m précédant le passage (sens de circulation)', 'Toujours autorisé', 'Réservé aux 50 cm³'],
+    correct: [1],
+    explanation: "Stationnement et arrêt interdits 5 m avant un passage piéton ; gênante = 135 €, enlèvement possible."
+  },
+  {
+    id: 'F09', theme: 'F',
+    prompt: "À l'arrêt, descendre de la moto se fait :",
+    choices: ['Par n\'importe quel côté', 'De préférence à gauche, vers le trottoir, après vérification arrière', 'Du côté circulation', 'Par l\'avant'],
+    correct: [1],
+    explanation: "On descend généralement du côté trottoir, après un coup d'œil arrière, pour éviter d'être heurté par un véhicule survenant."
+  },
+  {
+    id: 'F10', theme: 'F',
+    prompt: "Couper le coupe-circuit (kill switch) avant le contact :",
+    choices: ['Endommage le moteur', 'Évite que la moto démarre par inadvertance — bonne habitude au stationnement', 'Décharge la batterie', 'N\'a aucun effet'],
+    correct: [1],
+    explanation: "Le coupe-circuit isole l'allumage ; bonne habitude sécurité quand la moto est laissée seule un instant."
+  },
+
+  // G — mécanique
+  {
+    id: 'G09', theme: 'G',
+    prompt: "Un voyant rouge moteur (« check engine » rouge ou pression d'huile) impose :",
+    choices: ['De continuer normalement', 'Arrêt rapide en sécurité et vérification (huile, refroidissement)', 'D\'accélérer pour purger', 'De couper l\'éclairage'],
+    correct: [1],
+    explanation: "Voyants rouges = sécurité moteur (huile, température, freinage). Continuer = casse moteur ou panne dangereuse."
+  },
+  {
+    id: 'G10', theme: 'G',
+    prompt: "Un pneu surgonflé entraîne :",
+    choices: ['Une meilleure tenue de route', 'Une zone de contact réduite, donc moins d\'adhérence et usure centrale', 'Une consommation accrue', 'Aucun effet'],
+    correct: [1],
+    explanation: "Sur-gonflage : empreinte au sol moindre, adhérence dégradée, usure prématurée du centre de la bande de roulement."
+  },
+  {
+    id: 'G11', theme: 'G',
+    prompt: "Les feux stop de la moto s'allument :",
+    choices: ['Uniquement avec le frein avant', 'Uniquement avec le frein arrière', 'Avec l\'un ou l\'autre des freins', 'Avec le klaxon'],
+    correct: [2],
+    explanation: "Frein avant et frein arrière doivent tous deux activer le feu stop ; à contrôler régulièrement."
+  },
+  {
+    id: 'G12', theme: 'G',
+    prompt: "L'usure dissymétrique d'un pneu peut signaler :",
+    choices: ['Un défaut de pression ou un parallélisme/équilibrage anormal', 'Une excellente conduite', 'Une économie de carburant', 'Un défaut de freins'],
+    correct: [0],
+    explanation: "Usure d'un côté : pression mal réglée, train défectueux, ou conduite très orientée d'un côté (circuit). Faire vérifier."
+  },
+  {
+    id: 'G13', theme: 'G',
+    prompt: "Un éclairage défaillant à moto :",
+    choices: ['Est tolérable la nuit', 'Réduit gravement la visibilité et l\'identification — réparation immédiate', 'N\'affecte que les voitures', 'Améliore la sécurité'],
+    correct: [1],
+    explanation: "Phare/feu stop/clignotants défaillants = moto difficile à voir et signaler ; risque d'amende et accident."
+  },
+  {
+    id: 'G14', theme: 'G',
+    prompt: "Le moteur peine à démarrer par grand froid :",
+    choices: ['Casse moteur immédiate', 'Batterie peut être faible, huile plus visqueuse — patience et utilisation du starter/mode froid', 'Toujours un problème d\'allumage', 'Rien à faire'],
+    correct: [1],
+    explanation: "Froid = huile épaissie, batterie affaiblie. Préchauffe brève, démarrages courts. Si problème persiste : batterie à contrôler."
+  },
+  {
+    id: 'G15', theme: 'G',
+    prompt: "Une chaîne lâche peut :",
+    choices: ['Améliorer l\'accélération', 'Sauter de la couronne et bloquer la roue arrière', 'Réduire la consommation', 'Aucun effet'],
+    correct: [1],
+    explanation: "Chaîne mal tendue : risque de saut sur couronne, blocage roue, chute. Tension à contrôler tous les 1 000 km environ."
+  },
+  {
+    id: 'G16', theme: 'G',
+    prompt: "Le frein moteur sur une moto :",
+    choices: ['Est inexistant', 'Aide à ralentir en rétrogradant — à doser pour ne pas bloquer l\'arrière sur sol glissant', 'Remplace toujours les freins', 'Augmente la vitesse'],
+    correct: [1],
+    explanation: "Rétrograder de manière progressive en accompagnant à l'embrayage ; un frein moteur trop brutal peut bloquer la roue arrière."
+  },
+
+  // H — équipements
+  {
+    id: 'H08', theme: 'H',
+    prompt: "Un casque tombé d'une hauteur de 1 mètre sans choc visible :",
+    choices: ['Reste sûr', 'Peut être endommagé en interne — vérification, voire remplacement conseillé', 'Devient plus solide', 'Aucun risque'],
+    correct: [1],
+    explanation: "La calotte interne (polystyrène) peut être affaissée sans signe externe. Au moindre choc significatif, remplacer."
+  },
+  {
+    id: 'H09', theme: 'H',
+    prompt: "La durée de vie indicative d'un casque moto est :",
+    choices: ['2 ans', '5 ans', '15 ans', 'À vie'],
+    correct: [1],
+    explanation: "~5 ans selon les fabricants : mousse et matériaux vieillissent. Après chute = remplacement immédiat."
+  },
+  {
+    id: 'H10', theme: 'H',
+    prompt: "Un pantalon moto avec coques homologuées CE protège principalement :",
+    choices: ['Les bras', 'Les genoux et hanches', 'Le casque', 'Les pieds'],
+    correct: [1],
+    explanation: "Protections aux genoux et hanches (niveau 1 ou 2 selon normes EN 1621-1) + tissus résistants à l'abrasion."
+  },
+  {
+    id: 'H11', theme: 'H',
+    prompt: "Un airbag moto (gilet/blouson) :",
+    choices: ['Inutile sur route', 'Réduit fortement les blessures au thorax et au cou en cas de chute', 'Remplace le casque', 'N\'existe pas'],
+    correct: [1],
+    explanation: "Airbag mécanique ou électronique : forte réduction des lésions thoraciques, cervicales, claviculaires."
+  },
+  {
+    id: 'H12', theme: 'H',
+    prompt: "Des chaussures de ville en moto :",
+    choices: ['Suffisent largement', 'Ne protègent pas la cheville en chute (entorse, écrasement)', 'Sont obligatoires', 'Améliorent l\'adhérence sur les commandes'],
+    correct: [1],
+    explanation: "Une chaussure montante avec renforts chevilles et anti-écrasement est indispensable. Tongs/sandales = très dangereux."
+  },
+  {
+    id: 'H13', theme: 'H',
+    prompt: "La visière du casque par temps de pluie :",
+    choices: ['Doit être fermée et traitée anti-buée/anti-pluie', 'Doit être ouverte pour mieux voir', 'Doit être retirée', 'Sans importance'],
+    correct: [0],
+    explanation: "Visière fermée, traitement Pinlock® ou produit anti-buée, et gestes simples pour évacuer l'eau (mouvement de tête, raclette gantée)."
+  },
+  {
+    id: 'H14', theme: 'H',
+    prompt: "Le passager à moto doit porter :",
+    choices: ['Casque seul', 'Casque + gants homologués CE au minimum', 'Aucun équipement obligatoire', 'Lunettes de soleil'],
+    correct: [1],
+    explanation: "Mêmes obligations que le conducteur : casque homologué attaché + gants CE. Tenue complète vivement recommandée."
+  },
+
+  // I — environnement / conduite
+  {
+    id: 'I06', theme: 'I',
+    prompt: "Couper le moteur à un arrêt prolongé :",
+    choices: ['Use le démarreur sans bénéfice', 'Économise du carburant et réduit la pollution dès ~30 secondes d\'arrêt', 'Endommage la batterie', 'Aucun effet'],
+    correct: [1],
+    explanation: "L'éco-conduite préconise de couper le moteur à partir d'environ 20–30 secondes d'arrêt."
+  },
+  {
+    id: 'I07', theme: 'I',
+    prompt: "L'entretien régulier de la moto (filtre à air, bougies, pneus) :",
+    choices: ['Ne change rien', 'Réduit consommation et émissions, prolonge la vie du moteur', 'Augmente les émissions', 'Est facultatif'],
+    correct: [1],
+    explanation: "Filtre air bouché ou bougies usées = mélange dégradé, consommation +, émissions +. Suivre le carnet d'entretien."
+  },
+  {
+    id: 'I08', theme: 'I',
+    prompt: "Le bruit cumulé des motos en ville :",
+    choices: ['N\'a aucun impact', 'Constitue une nuisance pouvant entraîner contrôles renforcés et amendes (radar sonore)', 'Améliore la cohésion sociale', 'Est obligatoire'],
+    correct: [1],
+    explanation: "Des radars sonores (Hydre, Méduse) sont déployés ; au-delà du seuil : amende. Échappement homologué et conduite calme conseillés."
+  },
+  {
+    id: 'I09', theme: 'I',
+    prompt: "L'éco-conduite gagne :",
+    choices: ['~50 % de carburant', '~10 à 20 % de carburant et émissions', 'Aucune économie', 'Plus de bruit'],
+    correct: [1],
+    explanation: "Anticiper, rouler souple, régime modéré, vitesse stabilisée : gain courant de 10 à 20 % de consommation."
+  },
+  {
+    id: 'I10', theme: 'I',
+    prompt: "Une vignette Crit'Air est :",
+    choices: ['Optionnelle partout', 'Obligatoire pour circuler en ZFE et lors des pics de pollution', 'Réservée aux poids lourds', 'Pour les voitures uniquement'],
+    correct: [1],
+    explanation: "Vignette à apposer sur la fourche/garde-boue ; sans Crit'Air en ZFE = 68 €. Commande sur le site officiel certificat-air.gouv.fr."
+  },
+
+  // Mix bonus
+  {
+    id: 'A16', theme: 'A',
+    prompt: "Conduire sous l'emprise simultanée d'alcool et de stupéfiants :",
+    choices: ['Cumul de sanctions, peines aggravées', 'Sanction simple', 'Aucune sanction supplémentaire', 'Suspension de 3 jours seulement'],
+    correct: [0],
+    explanation: "Cumul alcool + stupéfiants : peines aggravées (jusqu'à 3 ans de prison, 9 000 €), suspension/annulation, confiscation."
+  },
+  {
+    id: 'C33', theme: 'C', sign: 'travaux',
+    prompt: "Ce panneau « travaux » impose :",
+    choices: ['Une accélération', 'Une réduction de vitesse et vigilance (gravillons, hommes en jaune)', 'Un demi-tour', 'Aucune réaction'],
+    correct: [1],
+    explanation: "Zones de travaux : gravillons, ralentisseurs, signaleurs, machines. Ralentir, écarter sa trajectoire."
+  },
+  {
+    id: 'D14', theme: 'D',
+    prompt: "Un cycliste roule sur la chaussée à 25 km/h, vous êtes derrière en moto :",
+    choices: ['Klaxonner sans cesse', 'Le dépasser avec 1 m de marge en agglo, 1,5 m hors agglo, sur ligne discontinue ou continue franchissable si visibilité', 'Le bousculer', 'Le suivre sans dépasser'],
+    correct: [1],
+    explanation: "Le dépassement d'un cycliste autorise le chevauchement d'une ligne continue si la visibilité le permet ; respect strict des marges latérales."
+  },
+  {
+    id: 'G17', theme: 'G',
+    prompt: "Les contrôles essentiels avant de partir (« BAC ») :",
+    choices: ['Bagage, Argent, Casque', 'Bougies, Allumage, Câbles', 'Freins, pneus, niveaux et éclairages', 'Aucun contrôle requis'],
+    correct: [2],
+    explanation: "Faire un tour avant de partir : pneus (pression, état), freins (commandes et liquide), niveaux (huile, refroidissement), éclairages/clignotants/stop."
+  },
+  {
+    id: 'H15', theme: 'H',
+    prompt: "Une visière fumée la nuit :",
+    choices: ['Améliore la vision', 'Est interdite et dangereuse — visière claire la nuit', 'Sans effet', 'Obligatoire'],
+    correct: [1],
+    explanation: "Visière homologuée seulement ; classe optique ≤ 2 ; visière fumée la nuit est interdite et très dangereuse."
+  },
+  {
+    id: 'I11', theme: 'I',
+    prompt: "Couper trop brusquement les gaz à régime élevé peut :",
+    choices: ['Économiser du carburant', 'Provoquer un blocage de roue arrière sur sol glissant', 'Améliorer l\'adhérence', 'Aucun effet'],
+    correct: [1],
+    explanation: "Décélération brusque + sol glissant = frein moteur peut bloquer la roue arrière. Dégager doucement les gaz, ou tirer légèrement l'embrayage."
+  },
+  {
+    id: 'E11', theme: 'E',
+    prompt: "Le numéro d'urgence européen unique est :",
+    choices: ['15', '17', '18', '112'],
+    correct: [3],
+    explanation: "Le 112 fonctionne dans toute l'UE, gratuit même sans crédit et sans réseau de votre opérateur. SAMU 15, Police 17, Pompiers 18."
+  },
+  {
+    id: 'B14', theme: 'B',
+    prompt: "Avant un long trajet moto :",
+    choices: ['Sauter le repas', 'Dormir suffisamment, s\'hydrater, éviter alcool', 'Boire du café fort uniquement', 'Rouler de nuit pour le calme'],
+    correct: [1],
+    explanation: "Sommeil, hydratation, repas léger ; éviter alcool/médicaments incompatibles ; pauses planifiées toutes les 2 h."
   }
 ];

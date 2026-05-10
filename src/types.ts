@@ -1,6 +1,17 @@
 export type Theme =
   | 'A' | 'B' | 'C' | 'D' | 'E' | 'F' | 'G' | 'H' | 'I';
 
+export type SignKey =
+  | 'stop' | 'cedez' | 'sens-interdit' | 'interdit-tous'
+  | 'danger' | 'virage-droite' | 'chaussee-glissante' | 'travaux'
+  | 'priorite-droite' | 'route-prioritaire' | 'fin-prioritaire'
+  | 'limite-50' | 'limite-30' | 'limite-70' | 'limite-90'
+  | 'fin-limitation' | 'fin-toutes-interdictions'
+  | 'agglo-entree' | 'agglo-sortie'
+  | 'autoroute' | 'fin-autoroute' | 'voie-rapide'
+  | 'passage-pietons' | 'zone-30' | 'aire-pietonne'
+  | 'sens-giratoire' | 'obligation-droite';
+
 export interface Question {
   id: string;
   theme: Theme;
@@ -8,12 +19,18 @@ export interface Question {
   choices: string[];
   correct: number[];
   explanation: string;
+  sign?: SignKey;
 }
 
 export interface Answer {
   questionId: string;
   selected: number[];
   correct: boolean;
+}
+
+export interface ThemeStat {
+  attempts: number;
+  correct: number;
 }
 
 export const THEMES: Record<Theme, { label: string; short: string }> = {
