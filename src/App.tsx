@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { QUESTIONS } from './data/questions';
-import { THEMES, type Answer, type Question, type Theme, type ThemeStat } from './types';
+import { QUESTIONS_VOITURE } from './data/questions_voiture';
+import { THEMES, type Answer, type License, type Question, type Theme, type ThemeStat } from './types';
 import { Sign } from './components/Signs';
 
 type Screen =
+  | { name: 'discipline' }
   | { name: 'home' }
   | { name: 'theme-pick'; mode: 'train' }
   | { name: 'exam-config' }
@@ -12,25 +14,40 @@ type Screen =
   | { name: 'review-errors' }
   | { name: 'stats' };
 
-const ERR_KEY = 'codemoto.errors.v1';
-const STATS_KEY = 'codemoto.stats.v1';
 const CHRONO_SECONDS = 20;
+const EXAM_SIZE = 40;
+const EXAM_MAX_ERRORS = 5;
+const LIC_KEY = 'codemoto.license.v1';
 
-function loadErrors(): Record<string, number> {
-  try { return JSON.parse(localStorage.getItem(ERR_KEY) || '{}'); } catch { return {}; }
+const errKey = (lic: License) => `codemoto.errors.${lic}.v1`;
+const statsKey = (lic: License) => `codemoto.stats.${lic}.v1`;
+
+const LICENSE_META: Record<License, { title: string; emoji: string; accent: string }> = {
+  moto:    { title: 'Code moto (ETM)',     emoji: '🏍️', accent: 'text-amber-400' },
+  voiture: { title: 'Code voiture (ETG)',  emoji: '🚗', accent: 'text-sky-400' }
+};
+
+function bankFor(lic: License): Question[] {
+  return lic === 'moto' ? QUESTIONS : QUESTIONS_VOITURE;
 }
-function saveErrors(e: Record<string, number>) {
-  localStorage.setItem(ERR_KEY, JSON.stringify(e));
+
+function loadErrors(lic: License): Record<string, number> {
+  try { return JSON.parse(localStorage.getItem(errKey(lic)) || '{}'); } catch { return {}; }
 }
-function loadStats(): Record<Theme, ThemeStat> {
-  const empty = Object.fromEntries((Object.keys(THEMES) as Theme[]).map(t => [t, { attempts: 0, correct: 0 }])) as Record<Theme, ThemeStat>;
+function saveErrors(lic: License, e: Record<string, number>) {
+  localStorage.setItem(errKey(lic), JSON.stringify(e));
+}
+function emptyStats(): Record<Theme, ThemeStat> {
+  return Object.fromEntries((Object.keys(THEMES) as Theme[]).map(t => [t, { attempts: 0, correct: 0 }])) as Record<Theme, ThemeStat>;
+}
+function loadStats(lic: License): Record<Theme, ThemeStat> {
   try {
-    const stored = JSON.parse(localStorage.getItem(STATS_KEY) || '{}');
-    return { ...empty, ...stored };
-  } catch { return empty; }
+    const stored = JSON.parse(localStorage.getItem(statsKey(lic)) || '{}');
+    return { ...emptyStats(), ...stored };
+  } catch { return emptyStats(); }
 }
-function saveStats(s: Record<Theme, ThemeStat>) {
-  localStorage.setItem(STATS_KEY, JSON.stringify(s));
+function saveStats(lic: License, s: Record<Theme, ThemeStat>) {
+  localStorage.setItem(statsKey(lic), JSON.stringify(s));
 }
 
 function shuffle<T>(arr: T[]): T[] {
@@ -49,23 +66,62 @@ function arraysEqual(a: number[], b: number[]) {
 }
 
 export default function App() {
-  const [screen, setScreen] = useState<Screen>({ name: 'home' });
-  const errorStore = useMemo(loadErrors, [screen.name]);
+  const [license, setLicense] = useState<License | null>(() => {
+    const v = localStorage.getItem(LIC_KEY);
+    return v === 'moto' || v === 'voiture' ? v : null;
+  });
+  const [screen, setScreen] = useState<Screen>(() => license ? { name: 'home' } : { name: 'discipline' });
+
+  useEffect(() => {
+    if (license) localStorage.setItem(LIC_KEY, license);
+  }, [license]);
+
+  const bank = license ? bankFor(license) : [];
+  const errorStore = useMemo(() => license ? loadErrors(license) : {}, [screen.name, license]);
+  const meta = license ? LICENSE_META[license] : null;
+
+  function switchLicense() {
+    setLicense(null);
+    setScreen({ name: 'discipline' });
+  }
+
+  if (!license || screen.name === 'discipline') {
+    return (
+      <div className="min-h-full max-w-2xl mx-auto px-4 py-6">
+        <DisciplinePick
+          onPick={(l) => {
+            setLicense(l);
+            setScreen({ name: 'home' });
+          }}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-full max-w-2xl mx-auto px-4 py-6">
-      <header className="flex items-center justify-between mb-6">
+      <header className="flex items-center justify-between mb-6 gap-2">
         <button
           onClick={() => setScreen({ name: 'home' })}
-          className="text-amber-400 font-bold text-xl tracking-tight"
+          className={`${meta!.accent} font-bold text-xl tracking-tight text-left`}
         >
-          🏍️ Code Moto
+          {meta!.emoji} {meta!.title}
         </button>
-        <span className="text-xs text-slate-400">{QUESTIONS.length} questions</span>
+        <div className="flex items-center gap-3">
+          <span className="text-xs text-slate-400">{bank.length} questions</span>
+          <button
+            onClick={switchLicense}
+            className="text-xs px-2 py-1 rounded border border-slate-700 hover:border-slate-500"
+            title="Changer de section"
+          >
+            Changer
+          </button>
+        </div>
       </header>
 
       {screen.name === 'home' && (
         <Home
+          license={license}
           errorCount={Object.keys(errorStore).length}
           onTrain={() => setScreen({ name: 'theme-pick', mode: 'train' })}
           onExam={() => setScreen({ name: 'exam-config' })}
@@ -76,12 +132,13 @@ export default function App() {
 
       {screen.name === 'theme-pick' && (
         <ThemePick
+          bank={bank}
           onPick={(t) => {
-            const qs = shuffle(QUESTIONS.filter(q => q.theme === t));
+            const qs = shuffle(bank.filter(q => q.theme === t));
             setScreen({ name: 'quiz', questions: qs, mode: 'train', title: `Thème ${t} — ${THEMES[t].short}`, chrono: false });
           }}
           onAll={() => {
-            const qs = shuffle(QUESTIONS);
+            const qs = shuffle(bank);
             setScreen({ name: 'quiz', questions: qs, mode: 'train', title: 'Entraînement libre — tous thèmes', chrono: false });
           }}
           onBack={() => setScreen({ name: 'home' })}
@@ -90,9 +147,10 @@ export default function App() {
 
       {screen.name === 'exam-config' && (
         <ExamConfig
+          examSize={Math.min(EXAM_SIZE, bank.length)}
           onStart={(chrono) => {
-            const qs = shuffle(QUESTIONS).slice(0, 40);
-            setScreen({ name: 'quiz', questions: qs, mode: 'exam', title: 'Examen blanc ETM (40 questions)', chrono });
+            const qs = shuffle(bank).slice(0, Math.min(EXAM_SIZE, bank.length));
+            setScreen({ name: 'quiz', questions: qs, mode: 'exam', title: `Examen blanc (${qs.length} questions)`, chrono });
           }}
           onBack={() => setScreen({ name: 'home' })}
         />
@@ -105,21 +163,19 @@ export default function App() {
           title={screen.title}
           chrono={screen.chrono}
           onDone={(answers) => {
-            // erreurs
             const nextErr = { ...errorStore };
             for (const a of answers) {
               if (!a.correct) nextErr[a.questionId] = (nextErr[a.questionId] || 0) + 1;
               else if (nextErr[a.questionId]) delete nextErr[a.questionId];
             }
-            saveErrors(nextErr);
-            // stats par thème
-            const stats = loadStats();
+            saveErrors(license, nextErr);
+            const stats = loadStats(license);
             for (const a of answers) {
               const q = screen.questions.find(x => x.id === a.questionId)!;
               stats[q.theme].attempts += 1;
               if (a.correct) stats[q.theme].correct += 1;
             }
-            saveStats(stats);
+            saveStats(license, stats);
             setScreen({ name: 'results', answers, questions: screen.questions, mode: screen.mode, title: screen.title });
           }}
           onAbort={() => setScreen({ name: 'home' })}
@@ -141,41 +197,92 @@ export default function App() {
 
       {screen.name === 'review-errors' && (
         <ReviewErrors
+          bank={bank}
           errors={errorStore}
           onStart={(qs) => setScreen({ name: 'quiz', questions: shuffle(qs), mode: 'train', title: 'Révision des erreurs', chrono: false })}
-          onClear={() => { saveErrors({}); setScreen({ name: 'home' }); }}
+          onClear={() => { saveErrors(license, {}); setScreen({ name: 'home' }); }}
           onBack={() => setScreen({ name: 'home' })}
         />
       )}
 
       {screen.name === 'stats' && (
         <Stats
+          license={license}
           onBack={() => setScreen({ name: 'home' })}
-          onReset={() => { saveStats(loadStats()); localStorage.removeItem(STATS_KEY); setScreen({ name: 'home' }); }}
+          onReset={() => { localStorage.removeItem(statsKey(license)); setScreen({ name: 'home' }); }}
         />
       )}
 
       <footer className="mt-10 text-center text-xs text-slate-500">
-        Banque originale calquée sur la grille publique ETM. Vérifiez toujours les règles à jour sur securite-routiere.gouv.fr.
+        Banque originale couvrant les thèmes officiels. Vérifiez les règles à jour sur securite-routiere.gouv.fr.
       </footer>
     </div>
   );
 }
 
-function Home({ errorCount, onTrain, onExam, onReview, onStats }: {
+function DisciplinePick({ onPick }: { onPick: (l: License) => void }) {
+  return (
+    <div className="space-y-6 pt-10">
+      <div>
+        <h1 className="text-3xl font-bold">Réviser le code</h1>
+        <p className="text-slate-400 text-sm mt-1">Choisis la catégorie de permis que tu prépares.</p>
+      </div>
+
+      <div className="grid gap-3">
+        <button
+          onClick={() => onPick('moto')}
+          className="text-left p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-amber-500 transition"
+        >
+          <div className="flex items-center gap-4">
+            <div className="text-4xl">🏍️</div>
+            <div>
+              <div className="text-amber-400 font-bold text-lg">Code moto · ETM</div>
+              <div className="text-xs text-slate-400">9 thèmes · ~150 questions · panneaux français</div>
+            </div>
+          </div>
+        </button>
+
+        <button
+          onClick={() => onPick('voiture')}
+          className="text-left p-5 rounded-2xl bg-slate-900 border border-slate-800 hover:border-sky-500 transition"
+        >
+          <div className="flex items-center gap-4">
+            <div className="text-4xl">🚗</div>
+            <div>
+              <div className="text-sky-400 font-bold text-lg">Code voiture · ETG</div>
+              <div className="text-xs text-slate-400">9 thèmes · banque dédiée au permis B</div>
+            </div>
+          </div>
+        </button>
+      </div>
+
+      <p className="text-xs text-slate-500 pt-4">
+        Tes erreurs et statistiques sont enregistrées séparément pour chaque catégorie.
+      </p>
+    </div>
+  );
+}
+
+function Home({ license, errorCount, onTrain, onExam, onReview, onStats }: {
+  license: License;
   errorCount: number;
   onTrain: () => void;
   onExam: () => void;
   onReview: () => void;
   onStats: () => void;
 }) {
+  const isMoto = license === 'moto';
   return (
     <div className="space-y-3">
-      <h1 className="text-2xl font-bold">Révise ton code moto</h1>
-      <p className="text-slate-400 text-sm">Entraînement par thème, examen blanc (40 questions, ≤ 5 erreurs), carnet d'erreurs et statistiques.</p>
+      <h1 className="text-2xl font-bold">
+        Révise ton {isMoto ? 'code moto' : 'code voiture'}
+      </h1>
+      <p className="text-slate-400 text-sm">
+        Entraînement par thème, examen blanc ({EXAM_SIZE} questions, ≤ {EXAM_MAX_ERRORS} erreurs), carnet d'erreurs et statistiques.
+      </p>
       <div className="grid gap-3 mt-4">
         <Tile title="Entraînement" subtitle="Par thème ou tous mélangés" onClick={onTrain} accent="bg-amber-500" />
-        <Tile title="Examen blanc" subtitle="40 questions, mode chrono optionnel" onClick={onExam} accent="bg-rose-500" />
+        <Tile title="Examen blanc" subtitle={`${EXAM_SIZE} questions, mode chrono optionnel`} onClick={onExam} accent="bg-rose-500" />
         <Tile
           title="Mes erreurs"
           subtitle={errorCount === 0 ? 'Aucune erreur enregistrée' : `${errorCount} question(s) à revoir`}
@@ -209,19 +316,20 @@ function Tile({ title, subtitle, onClick, accent, disabled }: {
   );
 }
 
-function ThemePick({ onPick, onAll, onBack }: { onPick: (t: Theme) => void; onAll: () => void; onBack: () => void }) {
+function ThemePick({ bank, onPick, onAll, onBack }: { bank: Question[]; onPick: (t: Theme) => void; onAll: () => void; onBack: () => void }) {
   return (
     <div className="space-y-3">
       <button onClick={onBack} className="text-xs text-slate-400">← retour</button>
       <h2 className="text-xl font-bold">Choisis un thème</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         {(Object.keys(THEMES) as Theme[]).map(t => {
-          const count = QUESTIONS.filter(q => q.theme === t).length;
+          const count = bank.filter(q => q.theme === t).length;
           return (
             <button
               key={t}
               onClick={() => onPick(t)}
-              className="text-left p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-amber-500"
+              disabled={count === 0}
+              className="text-left p-3 rounded-lg bg-slate-900 border border-slate-800 hover:border-amber-500 disabled:opacity-40"
             >
               <div className="flex items-baseline justify-between">
                 <span className="font-bold text-amber-400">{t}</span>
@@ -240,13 +348,13 @@ function ThemePick({ onPick, onAll, onBack }: { onPick: (t: Theme) => void; onAl
   );
 }
 
-function ExamConfig({ onStart, onBack }: { onStart: (chrono: boolean) => void; onBack: () => void }) {
+function ExamConfig({ examSize, onStart, onBack }: { examSize: number; onStart: (chrono: boolean) => void; onBack: () => void }) {
   return (
     <div className="space-y-4">
       <button onClick={onBack} className="text-xs text-slate-400">← retour</button>
       <h2 className="text-xl font-bold">Examen blanc</h2>
       <p className="text-sm text-slate-400">
-        40 questions tirées au hasard. Seuil de réussite ETM : <span className="text-amber-400 font-semibold">≤ 5 erreurs</span>.
+        {examSize} questions tirées au hasard. Seuil de réussite : <span className="text-amber-400 font-semibold">≤ {EXAM_MAX_ERRORS} erreurs</span>.
       </p>
       <div className="space-y-2">
         <button
@@ -289,7 +397,6 @@ function Quiz({ questions, mode, title, chrono, onDone, onAbort }: {
   useEffect(() => {
     if (!useChrono) return;
     if (timeLeft <= 0) {
-      // auto-validation (même si rien de sélectionné, on enregistre faux)
       const correct = arraysEqual(selected, q.correct) && selected.length > 0;
       const all = [...answers, { questionId: q.id, selected, correct }];
       if (i + 1 >= questions.length) onDone(all);
@@ -357,7 +464,7 @@ function Quiz({ questions, mode, title, chrono, onDone, onAbort }: {
 
         {q.sign && (
           <div className="flex justify-center my-3">
-            <div className="bg-slate-950 p-3 rounded-lg border border-slate-800">
+            <div className="bg-white p-3 rounded-lg border border-slate-800">
               <Sign k={q.sign} size={120} />
             </div>
           </div>
@@ -423,7 +530,7 @@ function Results({ answers, questions, mode, title, onHome, onRetry }: {
   const good = answers.filter(a => a.correct).length;
   const total = answers.length;
   const wrong = total - good;
-  const passed = mode === 'exam' ? wrong <= 5 : good === total;
+  const passed = mode === 'exam' ? wrong <= EXAM_MAX_ERRORS : good === total;
 
   return (
     <div className="space-y-4">
@@ -432,7 +539,7 @@ function Results({ answers, questions, mode, title, onHome, onRetry }: {
         <div className="text-3xl font-bold">{good} / {total}</div>
         {mode === 'exam' ? (
           <div className="text-sm mt-1">
-            {passed ? '✓ Examen réussi (≤ 5 erreurs)' : `✗ Examen non validé (${wrong} erreurs, max 5)`}
+            {passed ? `✓ Examen réussi (≤ ${EXAM_MAX_ERRORS} erreurs)` : `✗ Examen non validé (${wrong} erreurs, max ${EXAM_MAX_ERRORS})`}
           </div>
         ) : (
           <div className="text-sm mt-1">{wrong === 0 ? 'Sans-faute !' : `${wrong} erreur(s) ajoutée(s) à ton carnet de révision.`}</div>
@@ -471,13 +578,14 @@ function Results({ answers, questions, mode, title, onHome, onRetry }: {
   );
 }
 
-function ReviewErrors({ errors, onStart, onClear, onBack }: {
+function ReviewErrors({ bank, errors, onStart, onClear, onBack }: {
+  bank: Question[];
   errors: Record<string, number>;
   onStart: (qs: Question[]) => void;
   onClear: () => void;
   onBack: () => void;
 }) {
-  const qs = QUESTIONS.filter(q => errors[q.id]);
+  const qs = bank.filter(q => errors[q.id]);
   return (
     <div className="space-y-3">
       <button onClick={onBack} className="text-xs text-slate-400">← retour</button>
@@ -506,8 +614,8 @@ function ReviewErrors({ errors, onStart, onClear, onBack }: {
   );
 }
 
-function Stats({ onBack, onReset }: { onBack: () => void; onReset: () => void }) {
-  const stats = loadStats();
+function Stats({ license, onBack, onReset }: { license: License; onBack: () => void; onReset: () => void }) {
+  const stats = loadStats(license);
   const totalAttempts = Object.values(stats).reduce((s, t) => s + t.attempts, 0);
   const totalCorrect = Object.values(stats).reduce((s, t) => s + t.correct, 0);
   const overall = totalAttempts ? Math.round((totalCorrect / totalAttempts) * 100) : 0;

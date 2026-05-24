@@ -12,6 +12,8 @@ export type SignKey =
   | 'passage-pietons' | 'zone-30' | 'aire-pietonne'
   | 'sens-giratoire' | 'obligation-droite';
 
+export type License = 'moto' | 'voiture';
+
 export interface Question {
   id: string;
   theme: Theme;
@@ -20,6 +22,7 @@ export interface Question {
   correct: number[];
   explanation: string;
   sign?: SignKey;
+  licenses?: License[]; // si absent, valable pour les deux
 }
 
 export interface Answer {
