@@ -10,9 +10,12 @@ export type SignKey =
   | 'agglo-entree' | 'agglo-sortie'
   | 'autoroute' | 'fin-autoroute' | 'voie-rapide'
   | 'passage-pietons' | 'zone-30' | 'aire-pietonne'
-  | 'sens-giratoire' | 'obligation-droite';
+  | 'sens-giratoire' | 'obligation-droite'
+  | 'buoy-lateral-port' | 'buoy-lateral-stbd'
+  | 'buoy-cardinal-n' | 'buoy-cardinal-s' | 'buoy-cardinal-e' | 'buoy-cardinal-w'
+  | 'buoy-danger-isole' | 'buoy-zone-sure';
 
-export type License = 'moto' | 'voiture';
+export type License = 'moto' | 'voiture' | 'poids-lourds' | 'bateau';
 
 export interface Question {
   id: string;
@@ -47,3 +50,29 @@ export const THEMES: Record<Theme, { label: string; short: string }> = {
   H: { label: 'Équipements de protection', short: 'EPI' },
   I: { label: 'Conduite et environnement', short: 'Environnement' }
 };
+
+export const PL_THEMES: Record<Theme, { label: string; short: string }> = {
+  A: { label: 'Réglementation spécifique au transport routier', short: 'Réglementation PL' },
+  B: { label: 'Temps de conduite et repos (Rgt CE 561/2006)', short: 'Temps de conduite' },
+  C: { label: 'Comportement du PL sur la route', short: 'Comportement PL' },
+  D: { label: 'Coexistence avec les autres usagers', short: 'Autres usagers' },
+  E: { label: 'Tachygraphe et réglementation sociale', short: 'Tachygraphe' },
+  F: { label: 'Arrimage et sécurisation de la cargaison', short: 'Cargaison' },
+  G: { label: 'Mécanique et freinage spécifiques PL', short: 'Mécanique PL' },
+  H: { label: 'Équipements obligatoires et matières dangereuses (ADR)', short: 'Équipements & ADR' },
+  I: { label: 'Éco-conduite et environnement', short: 'Éco-conduite' }
+};
+
+export const BATEAU_THEMES: Partial<Record<Theme, { label: string; short: string }>> = {
+  A: { label: 'Balisage maritime (système AISM)', short: 'Balisage' },
+  B: { label: 'Règles de barre et de route (RIPAM/COLREG)', short: 'Règles de route' },
+  C: { label: 'Météorologie maritime', short: 'Météorologie' },
+  D: { label: 'Sécurité à bord et signaux de détresse', short: 'Sécurité' },
+  E: { label: 'Navigation, cartes et instruments', short: 'Navigation' },
+};
+
+export function themesFor(lic: License): Partial<Record<Theme, { label: string; short: string }>> {
+  if (lic === 'poids-lourds') return PL_THEMES;
+  if (lic === 'bateau') return BATEAU_THEMES;
+  return THEMES;
+}
