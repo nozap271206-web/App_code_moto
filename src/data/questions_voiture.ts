@@ -449,5 +449,268 @@ export const QUESTIONS_VOITURE: Question[] = [
     explanation: 'À haute vitesse, la résistance aérodynamique est le facteur dominant. -10 km/h = ~-1 L/100 km.' },
   { id: 'VI12', theme: 'I', prompt: 'Quel signe en circulation indique un éco-conducteur ?',
     choices: ['Démarrages brutaux', 'Anticipation, vitesse stable, peu de freinages, ralentissement par lever de pied', 'Klaxon fréquent', 'Conduite très lente partout'], correct: [1],
-    explanation: 'Éco-conduite = lecture de la route, gestes doux, anticipation. Pas synonyme de lenteur, plutôt de fluidité.' }
+    explanation: 'Éco-conduite = lecture de la route, gestes doux, anticipation. Pas synonyme de lenteur, plutôt de fluidité.' },
+
+  // ===== Lot 2 — Questions supplémentaires pour atteindre 200 =====
+
+  // A — Dispositions légales (suite)
+  { id: 'VA21', theme: 'A', prompt: "Sur autoroute par temps de pluie, la vitesse pour un conducteur confirmé est de :",
+    choices: ['100 km/h', '110 km/h', '120 km/h', '130 km/h'], correct: [1],
+    explanation: "Pluie sur autoroute : 110 km/h pour les conducteurs confirmés (130 à sec). 100 km/h sur route express à chaussées séparées." },
+
+  { id: 'VA22', theme: 'A', prompt: "Le refus de priorité entraîne un retrait de :",
+    choices: ['1 point', '2 points', '4 points et 135 €', '6 points'],
+    correct: [2], explanation: "Refus de priorité : 4 points + 135 €. Suspension possible en cas de récidive ou accident grave." },
+
+  { id: 'VA23', theme: 'A', prompt: "Le non-port de la ceinture est sanctionné de :",
+    choices: ['35 €', '68 € et 1 point', '135 € et 3 points', '375 € et 6 points'], correct: [2],
+    explanation: "Non-port de la ceinture : 135 € + 3 points, pour conducteur et chaque passager non attaché. Le conducteur est responsable des mineurs à bord." },
+
+  { id: 'VA24', theme: 'A', prompt: "Un grand excès de vitesse (≥ 50 km/h) peut entraîner la confiscation du véhicule :",
+    choices: ['Jamais', 'Oui, en cas de récidive ou de délit (> 50 km/h)', 'Seulement sur autoroute', 'Seulement pour les poids lourds'], correct: [1],
+    explanation: "Excès ≥ 50 km/h en récidive = délit : confiscation du véhicule possible, suspension ou annulation du permis. 1ère fois : 1 500 €, 6 points, suspension." },
+
+  { id: 'VA25', theme: 'A', prompt: "Le droit à l'oubli pour les points perdus (récupération automatique) est de :",
+    choices: ['1 an sans infraction', '2 ans (3 ans pour infractions 4e/5e classe)', '5 ans', '10 ans'], correct: [1],
+    explanation: "Permis non probatoire : 2 ans sans infraction = tous les points récupérés. 3 ans si la dernière infraction est de 4e ou 5e classe." },
+
+  { id: 'VA26', theme: 'A', prompt: "Un excès de vitesse entre 40 et 49 km/h entraîne un retrait de :",
+    choices: ['2 points', '3 points et 135 €', '4 points et 135 €', '6 points'], correct: [2],
+    explanation: "De 40 à 49 km/h au-delà de la limite : 4 points + 135 €. À partir de 50 km/h : 6 points + 1 500 € (5e classe)." },
+
+  { id: 'VA27', theme: 'A', prompt: "Circuler avec des plaquettes publicitaires sur le pare-brise gênant la visibilité est :",
+    choices: ['Toléré en zone urbaine', 'Interdit et sanctionné', 'Autorisé si < 10 cm²', 'Sans conséquence'], correct: [1],
+    explanation: "Obstruction du champ de vision du conducteur = infraction. Tout élément gênant la vue sur la route est interdit." },
+
+  // B — Le conducteur (suite)
+  { id: 'VB19', theme: 'B', prompt: "La distance de freinage évolue comme :",
+    choices: ['La vitesse (×2 de vitesse = ×2 de distance)', 'Le carré de la vitesse (×2 de vitesse = ×4 de distance)', 'La racine carrée de la vitesse', 'Le cube de la vitesse'], correct: [1],
+    explanation: "Distance de freinage proportionnelle au carré de la vitesse. À 50 km/h : ~14 m. À 100 km/h : ~56 m (×4). À 130 km/h : ~95 m." },
+
+  { id: 'VB20', theme: 'B', prompt: "Après une nuit de moins de 5 heures de sommeil, votre vigilance est comparable à :",
+    choices: ['Un état normal', 'Un taux d\'alcoolémie de 0,5 g/L', 'Votre état habituel mais avec des micro-siestes', 'Un état de pleine forme si vous êtes jeune'], correct: [1],
+    explanation: "5 heures de sommeil = vigilance équivalente à ~0,5 g/L d'alcool. Le manque de sommeil est reconnu comme cause majeure d'accidents mortels sur autoroute." },
+
+  { id: 'VB21', theme: 'B', prompt: "Le syndrome des jambes lourdes (engourdissement) lors de longs trajets est dû à :",
+    choices: ['Un excès de vitesse', 'L\'immobilité prolongée, réduisant la circulation sanguine', 'Une mauvaise qualité de l\'air dans le véhicule', 'Le bruit du moteur'], correct: [1],
+    explanation: "Immobilité prolongée + compression des membres = circulation sanguine réduite. S'étirer lors des pauses, bouger les pieds régulièrement. Risque de thrombose sur très longs trajets." },
+
+  { id: 'VB22', theme: 'B', prompt: "Les risques d'accident sont les plus élevés :",
+    choices: ['En milieu de matinée', 'Entre 2h et 5h du matin (creux circadien)', 'Après le déjeuner uniquement', 'En fin d\'après-midi'], correct: [1],
+    explanation: "Le creux circadien entre 2h et 5h correspond à la baisse naturelle de vigilance maximale. Un second creux existe entre 14h et 16h. La moitié des accidents sont liés à la fatigue." },
+
+  { id: 'VB23', theme: 'B', prompt: "L'effet de l'alcool sur la vitesse de réaction à 0,5 g/L est :",
+    choices: ['Nul — c\'est le seuil légal donc sans effet', 'Allongement du temps de réaction d\'environ 20-30 %', 'Amélioration des réflexes', 'Uniquement un effet sur la vision'], correct: [1],
+    explanation: "Dès 0,2 g/L, le temps de réaction augmente. À 0,5 g/L : +20-30 % de temps de réaction, estimation des distances et des vitesses altérée, champ visuel réduit." },
+
+  { id: 'VB24', theme: 'B', prompt: "En cas d'éblouissement par le soleil bas, la bonne conduite est :",
+    choices: ['Klaxonner pour prévenir les autres', 'Ralentir, utiliser le pare-soleil et garder une plus grande distance de sécurité', 'Mettre les feux de route', 'Fermer les yeux quelques secondes'], correct: [1],
+    explanation: "Soleil bas = zone aveugle à certaines heures (matin/soir à l'équinoxe). Réduire la vitesse, utiliser le pare-soleil, lunettes de soleil polarisées. Signalisation peut être invisible." },
+
+  { id: 'VB25', theme: 'B', prompt: "La conduite sous l'emprise de drogues (cannabis, amphétamines) :",
+    choices: ['Est tolérée à faibles doses', 'Est un délit dès la première infraction, zéro tolérance', 'Est sans conséquence si l\'état semble normal', 'Est sanctionnée uniquement en récidive'], correct: [1],
+    explanation: "Tolérance zéro stupéfiants : délit à partir de la moindre trace dans le sang. 4 500 € + retrait 6 points + suspension + possible prison. Cumul alcool + stup = aggravation." },
+
+  { id: 'VB26', theme: 'B', prompt: "Avant un long trajet de nuit, la recommandation est :",
+    choices: ['Boire beaucoup de café', 'Dormir suffisamment en amont et planifier des pauses toutes les 2 h', 'Partir tard pour éviter le trafic', 'Prendre des médicaments éveillants'], correct: [1],
+    explanation: "Nuit de bonne qualité (7-8h) avant le départ, pauses planifiées toutes les 2h, éviter les heures à haut risque (2h-5h) si possible. Le café ne remplace pas le sommeil." },
+
+  // C — La route (suite)
+  { id: 'VC23', theme: 'C', prompt: "En tunnel long, les règles spécifiques imposent :",
+    choices: ['Arrêter le moteur pour économiser le carburant', 'Feux de croisement allumés, distance accrue, pas de dépassement si interdit', 'Plein phares', 'Désactiver la clim'], correct: [1],
+    explanation: "En tunnel : codes allumés obligatoires, distance de sécurité accrue, respecter les interdictions affichées (dépassement souvent interdit). En cas d'incendie : ne pas faire demi-tour." },
+
+  { id: 'VC24', theme: 'C', prompt: "Une ligne jaune continue en bord de voie signifie :",
+    choices: ['Arrêt interdit', 'Arrêt et stationnement interdits', 'Uniquement stationnement interdit', 'Voie réservée aux taxis'], correct: [1],
+    explanation: "Ligne jaune continue le long du trottoir = arrêt et stationnement interdits en permanence. Ligne jaune discontinue = stationnement interdit (arrêt toléré brièvement)." },
+
+  { id: 'VC25', theme: 'C', prompt: "Sur une route de montagne, deux voitures se croisent sur une voie étroite : qui recule ?",
+    choices: ['Celui qui monte toujours', 'Celui qui descend, vers le prochain élargissement', 'Le plus petit véhicule', 'Celui qui est arrivé en second'], correct: [1],
+    explanation: "Le véhicule qui descend a une meilleure visibilité et le recul (en marche arrière) est plus facile à contrôler en descente. Il recule vers le premier endroit permettant le croisement." },
+
+  { id: 'VC26', theme: 'C', prompt: "La vitesse en agglomération sur voie à 3 voies ou plus peut être portée à :",
+    choices: ['50 km/h toujours', '70 km/h si un panneau l\'indique', '80 km/h si une voie de plus', '90 km/h sur les grands boulevards'], correct: [1],
+    explanation: "Certaines voies urbaines rapides peuvent avoir des limitations à 70 km/h (ou plus rarement 90 km/h). La limite s'applique si un panneau l'indique expressément." },
+
+  { id: 'VC27', theme: 'C', prompt: "Le dépassement est interdit :",
+    choices: ['Uniquement sur ligne continue', 'À l\'approche d\'un passage à niveau, d\'une intersection, en haut d\'une côte, en virage', 'Uniquement en agglomération', 'Uniquement sur autoroute'], correct: [1],
+    explanation: "Lieux d'interdiction de dépassement : ligne continue, passage à niveau, intersection, haut de côte, virage à visibilité réduite, passage piéton. La liste est longue : la visibilité est la règle de base." },
+
+  { id: 'VC28', theme: 'C', prompt: "La signalisation temporaire de chantier :",
+    choices: ['Ne s\'applique pas aux voitures de tourisme', 'Prévaut sur la signalisation permanente', 'Est indicative seulement', 'Ne change pas les limitations'], correct: [1],
+    explanation: "Signalisation de chantier (orange) = signalisation temporaire qui remplace et prévaut sur la signalisation permanente. Les limitations indiquées sont obligatoires." },
+
+  { id: 'VC29', theme: 'C', prompt: "Un feu tricolore non fonctionnel (éteint) à une intersection est traité comme :",
+    choices: ['Une priorité absolue pour tous', 'Un croisement avec priorité à droite', 'Un stop obligatoire pour tous', 'Une voie libre'], correct: [1],
+    explanation: "Feu en panne = priorité à droite s'applique. Approcher avec prudence, céder le passage à tout véhicule venant de droite." },
+
+  { id: 'VC30', theme: 'C', prompt: "Les feux de position (veilleuses) seuls, sans codes, sont autorisés :",
+    choices: ['En circulation de nuit pour économiser de l\'énergie', 'À l\'arrêt ou en stationnement uniquement, jamais en circulation', 'Sur route en agglomération la nuit', 'Sur route hors agglo par bonne visibilité'], correct: [1],
+    explanation: "Les veilleuses seules ne sont jamais suffisantes en circulation (de nuit ou par mauvaise visibilité). En circulation, feux de croisement obligatoires. Veilleuses = uniquement à l'arrêt ou stationnement." },
+
+  // D — Autres usagers (suite)
+  { id: 'VD15', theme: 'D', prompt: "Vous êtes rattrapé par un deux-roues en moto sur autoroute :",
+    choices: ['Le laisser sur la voie rapide, vous n\'avez pas à bouger', 'Anticiper son dépassement et rester dans sa file, sans vous déporter', 'Accélérer pour ne pas être doublé', 'Freiner pour l\'incommoder'], correct: [1],
+    explanation: "Laisser dépasser normalement. Rester dans sa voie sans s'y déporter. Une moto est sensible aux turbulences : ne pas l'écraser contre la glissière." },
+
+  { id: 'VD16', theme: 'D', prompt: "Un cycliste qui prend tout l'espace de la voie (pour éviter la porte d'un stationnement) :",
+    choices: ['Fait une faute — il doit serrer à droite', 'A le droit de s\'éloigner suffisamment du bord pour sa sécurité', 'Peut être dépassé en le forçant à serrer', 'Est en infraction'], correct: [1],
+    explanation: "Le cycliste peut occuper la largeur nécessaire à sa sécurité pour éviter l'emportiérage (ouverture de portière). Il n'est pas obligé de serrer contre un stationnement dangereux." },
+
+  { id: 'VD17', theme: 'D', prompt: "Un piéton traverse sur passage protégé pendant que vous tournez :",
+    choices: ['Vous avez la priorité car vous êtes sur la chaussée', 'Le piéton a la priorité absolue sur le passage — s\'arrêter', 'Accélérer pour passer avant', 'Klaxonner pour le faire reculer'], correct: [1],
+    explanation: "Tout piéton engagé sur un passage piéton (ou manifestant clairement l'intention de traverser) a la priorité absolue. S'arrêter même en tournant." },
+
+  { id: 'VD18', theme: 'D', prompt: "Un conducteur en état d\'ivresse se gare et vous demande de prendre le volant. Vous :",
+    choices: ['Refusez s\'il conduit bien', 'Prenez le volant même sans permis pour sa sécurité', 'Pouvez conduire si vous êtes sobre', 'Appelez les secours si la situation est dangereuse'], correct: [2],
+    explanation: "Conduire sobre = légal et approprié. Cependant, le propriétaire ivre du véhicule est responsable de le confier à une personne légalement habilitée (permis + sobre)." },
+
+  { id: 'VD19', theme: 'D', prompt: "Un véhicule d\'urgence avec gyrophare mais sans sirène :",
+    choices: ['N\'a pas de priorité particulière', 'Peut avoir la priorité selon les règles en vigueur — rester vigilant', 'Doit être ignoré', 'N\'est prioritaire que la nuit'], correct: [1],
+    explanation: "Gyrophare sans sirène : véhicule prioritaire sur ses missions spéciales (médecin de garde, pompes funèbres...). La sirène + gyrophare = priorité absolue. Dans tous les cas, faciliter le passage." },
+
+  { id: 'VD20', theme: 'D', prompt: "Vous croisez un convoi exceptionnel (CE) large :",
+    choices: ['Le dépasser rapidement', 'Réduire la vitesse, s\'écarter autant que possible à droite', 'Klaxonner pour qu\'il se range', 'Ignorer — vous avez la priorité'], correct: [1],
+    explanation: "Convoi exceptionnel : réduire la vitesse, s'écarter au maximum à droite. Un accompagnateur ou signaleur peut vous demander de vous arrêter." },
+
+  { id: 'VD21', theme: 'D', prompt: "Un trottinette électrique personnelle (EDPM) circule sur la chaussée :",
+    choices: ['C\'est interdit', 'C\'est autorisé si la vitesse max est ≤ 25 km/h et si les conditions sont respectées', 'C\'est réservé aux adultes', 'Uniquement sur piste cyclable'], correct: [1],
+    explanation: "EDPM (trottinette ≤ 25 km/h) : autorisée sur pistes cyclables et chaussée hors agglomération (vitesse < 50 km/h). Voie rapide et autoroute interdites. Casque recommandé mais non obligatoire." },
+
+  // E — Réglementation (suite)
+  { id: 'VE12', theme: 'E', prompt: "La responsabilité civile automobile couvre :",
+    choices: ['Votre véhicule en cas d\'accident', 'Les dommages causés aux tiers (personnes et biens)', 'Votre propre corps', 'Le vol'], correct: [1],
+    explanation: "La RC (au tiers) couvre UNIQUEMENT les dommages causés aux autres. Pour ses propres dommages corporels (conducteur) et matériels (voiture), des garanties complémentaires sont nécessaires." },
+
+  { id: 'VE13', theme: 'E', prompt: "En cas d\'accident matériel entre deux véhicules, le constat à l\'amiable :",
+    choices: ['Est obligatoire', 'Est fortement recommandé et simplifie le règlement assurantiel', 'Est inutile si on connaît l\'autre conducteur', 'Doit être rempli au commissariat'], correct: [1],
+    explanation: "Constat amiable non obligatoire mais très utile. Les deux parties signent le même constat sur place. En cas de litige ou désaccord, ne pas signer et appeler la police." },
+
+  { id: 'VE14', theme: 'E', prompt: "La loi Badinter (1985) protège :",
+    choices: ['Les conducteurs fautifs', 'Les victimes d\'accidents de la route (passagers, piétons, cyclistes)', 'Les assureurs', 'Les garagistes'], correct: [1],
+    explanation: "Loi Badinter : indemnisation rapide et automatique des victimes d'accidents de la circulation (sauf faute inexcusable). Révolutionnaire pour la protection des victimes non conductrices." },
+
+  { id: 'VE15', theme: 'E', prompt: "Le permis de conduire est-il valable à vie en France ?",
+    choices: ['Oui toujours', 'Non, il doit être renouvelé tous les 15 ans depuis 2013', 'Non, il expire à 70 ans', 'Oui si aucune infraction'], correct: [1],
+    explanation: "Depuis 2013, le permis européen (rose) est valable 15 ans puis doit être renouvelé (simple démarche administrative, sans examen). Les anciens modèles roses sont valables jusqu'en 2033." },
+
+  { id: 'VE16', theme: 'E', prompt: "Vendre un véhicule avec des défauts cachés (vice caché) :",
+    choices: ['Est toléré entre particuliers', 'Engage la responsabilité du vendeur', 'Est autorisé si mentionné dans un petit texte', 'N\'a aucune conséquence si la vente est signée'], correct: [1],
+    explanation: "Vice caché : le vendeur (même particulier) est responsable des défauts cachés rendant le véhicule impropre à son usage. L'acheteur peut obtenir l'annulation de la vente ou une réduction de prix." },
+
+  { id: 'VE17', theme: 'E', prompt: "Le délit de fuite après un accident entraîne :",
+    choices: ['Une simple amende', 'Jusqu\'à 3 ans de prison, 75 000 € d\'amende et 6 points', 'Une simple suspension de permis', 'Aucune sanction si pas de blessé'], correct: [1],
+    explanation: "Délit de fuite : 3 ans de prison, 75 000 €, 6 points retirés, suspension ou annulation du permis. S'il y a blessé : aggravation des peines (homicide involontaire)." },
+
+  { id: 'VE18', theme: 'E', prompt: "Pour prêter sa voiture à un tiers en cas d\'infraction radar automatique :",
+    choices: ['Vous supportez toujours l\'amende et les points', 'Vous pouvez désigner le conducteur sur l\'avis de contravention pour lui transférer les points', 'Le conducteur n\'est jamais sanctionné', 'La voiture est immobilisée'], correct: [1],
+    explanation: "Désignation du conducteur en ligne sur le site amendes.gouv.fr dans les 45 jours : l'amende reste à votre charge (sauf si remboursement convenu) mais les points sont retirés au vrai conducteur." },
+
+  // F — Quitter le véhicule (suite)
+  { id: 'VF10', theme: 'F', prompt: "En cas de crevaison à grande vitesse sur autoroute :",
+    choices: ['Freiner brusquement', 'Tenir fermement le volant, désélérer progressivement et rejoindre la BAU', 'Donner un coup de volant opposé', 'Maintenir la vitesse'], correct: [1],
+    explanation: "Crevaison brutale : tenir le volant fermement à deux mains, lâcher l'accélérateur en douceur (PAS de freinage brutal), rejoindre la BAU progressivement." },
+
+  { id: 'VF11', theme: 'F', prompt: "Stationner à moins de 5 m d'une intersection est :",
+    choices: ['Toléré si on reste dans le véhicule', 'Interdit — stationnement gênant ou très gênant', 'Autorisé en arrêt de moins de 5 minutes', 'Autorisé la nuit'], correct: [1],
+    explanation: "Moins de 5 m d'une intersection = stationnement interdit (gêne la visibilité des conducteurs et des piétons). 135 € + risque d'enlèvement." },
+
+  { id: 'VF12', theme: 'F', prompt: "Avant de repartir après un stationnement en pente, le conducteur doit :",
+    choices: ['Vérifier uniquement les rétroviseurs', 'Vérifier rétroviseurs + angles morts + signaler sa manœuvre + dégager progressivement', 'Accélérer fort pour prendre de l\'élan', 'Klaxonner'], correct: [1],
+    explanation: "Reprise en pente : déblocage du frein de parc, regard + clignotant, dégager progressivement. Vigilance aux véhicules et aux piétons derrière." },
+
+  { id: 'VF13', theme: 'F', prompt: "Stationner sur une ligne de tramway est :",
+    choices: ['Possible si le tram n\'arrive pas', 'Interdit et très dangereux — le tram ne peut pas freiner rapidement', 'Autorisé la nuit', 'Autorisé hors heures de service'], correct: [1],
+    explanation: "Les voies de tramway sont strictement réservées. Un tram est lourd et ne peut s'arrêter rapidement. Stationnement dessus = danger mortel + forte amende." },
+
+  { id: 'VF14', theme: 'F', prompt: "L'arrêt bref devant une boulangerie en double file :",
+    choices: ['Est toléré si vous restez dans le véhicule', 'Est interdit et constitue un stationnement gênant', 'Est autorisé pendant 2 minutes', 'Est réservé aux livreurs'], correct: [1],
+    explanation: "La double file = stationnement gênant systématique, même brève. 35 € à 135 € selon le lieu. Gêne la circulation, bloque les cyclistes, peut causer des accidents." },
+
+  { id: 'VF15', theme: 'F', prompt: "Laisser un enfant seul dans une voiture garée par forte chaleur :",
+    choices: ['Est sans risque si les vitres sont entrouvertes', 'Est extrêmement dangereux — la température monte très vite (coup de chaleur mortel)', 'Est autorisé moins de 10 minutes', 'N\'est risqué qu\'à plus de 30°C extérieur'], correct: [1],
+    explanation: "À 20°C extérieur, une voiture au soleil peut atteindre 50°C en 30 min. Coup de chaleur mortel possible très rapidement. Danger grave, responsabilité pénale des parents." },
+
+  // G — Mécanique (suite)
+  { id: 'VG17', theme: 'G', prompt: "Le témoin de pression des pneus (TPMS) allumé indique :",
+    choices: ['Les pneus sont surchargés', 'Au moins un pneu est sous-gonflé — vérifier rapidement', 'Le pneu est crevé — s\'arrêter immédiatement', 'Une anomalie de la climatisation'], correct: [1],
+    explanation: "TPMS : vérifie la pression de tous les pneus. Témoin allumé = au moins un pneu manque de pression. Vérifier et regonfler dès que possible. Sous-gonflage = consommation accrue + risque d'éclatement." },
+
+  { id: 'VG18', theme: 'G', prompt: "Le liquide de direction assistée doit être vérifié :",
+    choices: ['Jamais sur les véhicules modernes', 'Régulièrement et avant tout long trajet', 'Uniquement lors du contrôle technique', 'Uniquement après une crevaison'], correct: [1],
+    explanation: "Niveaux à vérifier régulièrement : huile moteur, liquide de frein, liquide de refroidissement, lave-glace, direction assistée (si applicable). Avant tout long trajet." },
+
+  { id: 'VG19', theme: 'G', prompt: "Si votre voiture freine par à-coups (pulsations dans la pédale) :",
+    choices: ['C\'est normal avec l\'ABS', 'Disques voilés probables — faire vérifier par un professionnel', 'Le liquide de frein est vieux', 'Les pneus sont sous-gonflés'], correct: [1],
+    explanation: "Pulsations dans la pédale EN DEHORS d'un freinage d'urgence ABS = disques voilés (déformés par la chaleur). Freinage irregular = dangereux. Faire vérifier et remplacer les disques." },
+
+  { id: 'VG20', theme: 'G', prompt: "Un bruit de craquement dans le train avant lors d'une manœuvre à basse vitesse peut indiquer :",
+    choices: ['Un pneumatique sous-gonflé', 'Un problème de rotule ou de suspension', 'Un essuie-glace défaillant', 'Un problème de direction assistée électrique'], correct: [1],
+    explanation: "Craquement aux basses vitesses en manœuvres = rotules, silent-blocs ou roulements usés. Peut causer une perte de contrôle. Faire contrôler rapidement." },
+
+  { id: 'VG21', theme: 'G', prompt: "La boîte de vitesses automatique :",
+    choices: ['Ne nécessite aucun entretien', 'Nécessite un changement de fluide selon les intervalles du constructeur', 'Peut être vidangée avec n\'importe quelle huile', 'N\'a pas de fluide'], correct: [1],
+    explanation: "La boîte automatique utilise un fluide ATF (Automatic Transmission Fluid) à changer selon les préconisations du constructeur (souvent 60 000 km). Négligence = pannes coûteuses." },
+
+  { id: 'VG22', theme: 'G', prompt: "Un voyant d'AIDE AU FREINAGE D'URGENCE (AFU) ou d'ABS allumé :",
+    choices: ['Les freins ne fonctionnent plus du tout', 'L\'ABS/AFU est désactivé ; les freins fonctionnent mais sans l\'assistance électronique', 'Les plaquettes sont usées', 'C\'est sans conséquence'], correct: [1],
+    explanation: "ABS désactivé = freinage sans modulation électronique. Les freins fonctionnent normalement mais vous pouvez bloquer les roues. Faire réparer avant un long trajet." },
+
+  { id: 'VG23', theme: 'G', prompt: "Les plaquettes de frein usées se signalent souvent par :",
+    choices: ['Une odeur de brûlé uniquement', 'Un bruit strident ou une vibration lors du freinage', 'Un voyant dédié sur tous les véhicules', 'Rien — elles s\'usent silencieusement'], correct: [1],
+    explanation: "Plaquettes usées : grince ou crisse à cause d'un témoin d'usure métallique. Certains véhicules ont un voyant dédié. Si vous entendez ce bruit = remplacement urgent." },
+
+  // H — Équipements (suite)
+  { id: 'VH16', theme: 'H', prompt: "Les feux antibrouillard avant peuvent être utilisés :",
+    choices: ['Toujours, pour mieux voir', 'Uniquement en cas de brouillard, neige ou pluie dense réduisant la visibilité', 'La nuit sur route non éclairée', 'À la place des feux de route'], correct: [1],
+    explanation: "Feux antibrouillard avant : uniquement par visibilité réduite (brouillard, neige, pluie dense). Hors de ces conditions = éblouissement des autres. Amende possible." },
+
+  { id: 'VH17', theme: 'H', prompt: "Les feux de route (pleins phares) doivent être éteints :",
+    choices: ['Uniquement en agglomération', 'Dès qu\'un véhicule arrive en sens inverse ou vous précède', 'Jamais — ils améliorent la sécurité', 'Uniquement sur autoroute'], correct: [1],
+    explanation: "Feux de route : éteindre dès qu'un véhicule arrive en sens inverse (éblouissement) ou vous précède (vous éblouissez via les rétroviseurs). Repasser en feux de croisement (codes)." },
+
+  { id: 'VH18', theme: 'H', prompt: "Le niveau de carburant minimum à maintenir en hiver est :",
+    choices: ['Zéro, tomber en panne n\'est pas grave', 'Au moins le quart du réservoir pour éviter la condensation et panne en cas de bouchon', 'La moitié du réservoir obligatoirement', 'Aucune règle particulière'], correct: [1],
+    explanation: "En hiver, réservoir au moins au quart : évite la condensation (eau dans le carburant), offre une autonomie en cas de blocage dans la neige ou bouchons prolongés." },
+
+  { id: 'VH19', theme: 'H', prompt: "Les câbles de démarrage (pour recharger une batterie plate) doivent être branchés dans l'ordre :",
+    choices: ['N\'importe quel ordre', 'Rouge (+) véhicule déchargé → rouge (+) véhicule chargé → noir (-) véhicule chargé → masse métallique véhicule déchargé', 'Noir d\'abord toujours', 'Sans importance si les voitures sont pareilles'], correct: [1],
+    explanation: "Ordre IMPÉRATIF : + → + puis - véhicule OK → masse métallique (pas la borne -) du véhicule plat. Mauvais branchement = étincelle sur batterie = explosion d'hydrogène. Débranchement : inverse." },
+
+  { id: 'VH20', theme: 'H', prompt: "L'assurance au tiers ne couvre PAS :",
+    choices: ['Les dommages à la voiture adverse', 'Les dommages à votre propre véhicule', 'Les blessures de l\'autre conducteur', 'Les dégâts sur le véhicule d\'un tiers garé'], correct: [1],
+    explanation: "RC = couvre uniquement les dommages causés aux tiers. Votre véhicule, vos blessures propres → non couverts. Il faut des garanties complémentaires (dommages collision, tous risques)." },
+
+  { id: 'VH21', theme: 'H', prompt: "Les pneus hiver (3PMSF) sont obligatoires :",
+    choices: ['Partout en France du 1er nov au 31 mars', 'Dans les communes de montagne listées par arrêté, du 1er nov au 31 mars', 'Sur autoroute uniquement en hiver', 'Jamais — ils sont facultatifs'], correct: [1],
+    explanation: "Loi Montagne II : pneus 3PMSF (ou chaînes) obligatoires dans les communes listées (massifs montagneux) du 1er nov au 31 mars. Amende : 135 €. En dehors de ces zones : facultatifs mais recommandés." },
+
+  { id: 'VH22', theme: 'H', prompt: "Le rétroviseur extérieur passager doit être :",
+    choices: ['Optionnel si le rétroviseur intérieur fonctionne', 'Obligatoire sur les voitures de tourisme homologuées', 'Réglé uniquement vers le bas pour voir la bordure', 'Optionnel sur les anciens véhicules'], correct: [1],
+    explanation: "Le rétroviseur extérieur passager est obligatoire sur tous les véhicules de tourisme. Sa présence, son état et son bon réglage sont vérifiés au contrôle technique." },
+
+  // I — Conduite & environnement (suite)
+  { id: 'VI13', theme: 'I', prompt: "La vignette Crit'Air se commande :",
+    choices: ['Chez votre assureur', 'Sur le site officiel certificat-air.gouv.fr (~3,76 €)', 'En préfecture uniquement', 'Elle est offerte lors du contrôle technique'], correct: [1],
+    explanation: "Vignette Crit'Air : commande unique sur certificat-air.gouv.fr. Valable à vie. À apposer sur le pare-brise côté conducteur. Beware des sites frauduleux qui font payer 10-20 €." },
+
+  { id: 'VI14', theme: 'I', prompt: "La résistance aérodynamique augmente avec :",
+    choices: ['La masse du véhicule uniquement', 'Le carré de la vitesse (doubler la vitesse = ×4 la résistance)', 'La hauteur des passagers', 'La surface des pneus'], correct: [1],
+    explanation: "Force aérodynamique ∝ v². À 130 km/h, la résistance à l'air est ~4 fois plus importante qu'à 65 km/h. C'est pourquoi réduire la vitesse de 130 à 110 économise ~1 L/100 km." },
+
+  { id: 'VI15', theme: 'I', prompt: "Conduire avec une galerie de toit chargée en permanence :",
+    choices: ['Est sans conséquence', 'Augmente la consommation, dégrade la tenue de route et monte le centre de gravité', 'Améliore la stabilité', 'Est recommandé pour équilibrer le poids'], correct: [1],
+    explanation: "Galerie : résistance aérodynamique +20-30 %, centre de gravité plus haut (risque de renversement en virage), consommation accrue. À démonter quand inutilisée." },
+
+  { id: 'VI16', theme: 'I', prompt: "Un moteur diesel trop souvent utilisé en ville (courtes distances) souffre de :",
+    choices: ['Surchauffe excessive', 'Encrassage du filtre à particules (FAP) qui ne se régénère pas assez', 'Surconsommation d\'AdBlue', 'Aucune conséquence'], correct: [1],
+    explanation: "Le FAP se régénère en brûlant les particules à haute température (roulage rapide > 60 km/h prolongé). Courtes distances en ville = régénération impossible = FAP bouché." },
+
+  { id: 'VI17', theme: 'I', prompt: "Le gonflage des pneus à l'azote (N₂) plutôt qu'à l'air :",
+    choices: ['Est obligatoire pour la sécurité', 'Offre une pression plus stable dans le temps et en température', 'Améliore l\'adhérence', 'Est interdit en France'], correct: [1],
+    explanation: "L'azote pur : pression plus stable (pas d'humidité), moins de variation à chaud. Avantage surtout notable sur circuit. En usage routier courant, l'air comprimé normal suffit." },
+
+  { id: 'VI18', theme: 'I', prompt: "La sobriété énergétique en conduite consiste à :",
+    choices: ['Couper le moteur à chaque feu rouge', 'Adapter sa vitesse, anticiper et éviter les accélérations et freinages inutiles', 'Ne jamais dépasser 80 km/h', 'Mettre le point mort en descente'], correct: [1],
+    explanation: "Sobriété = anticipation + régularité + gestion de la vitesse. Éviter les accélérations et freinages inutiles. Adapter sa vitesse au flux. -15 à 20 % de carburant selon le style de conduite." }
 ];

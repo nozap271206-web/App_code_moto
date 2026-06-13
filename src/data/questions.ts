@@ -1034,5 +1034,382 @@ export const QUESTIONS: Question[] = [
     choices: ['Sauter le repas', 'Dormir suffisamment, s\'hydrater, éviter alcool', 'Boire du café fort uniquement', 'Rouler de nuit pour le calme'],
     correct: [1],
     explanation: "Sommeil, hydratation, repas léger ; éviter alcool/médicaments incompatibles ; pauses planifiées toutes les 2 h."
-  }
+  },
+
+  // ===== Lot 3 — Questions supplémentaires pour atteindre 200 =====
+
+  // A — Dispositions légales
+  { id: 'A17', theme: 'A',
+    prompt: "Le permis A1 autorise la conduite de motos jusqu'à :",
+    choices: ['50 cm³', '125 cm³ / 11 kW', '250 cm³', '500 cm³'],
+    correct: [1],
+    explanation: "Permis A1 (dès 16 ans) : motos légères ≤ 125 cm³ et ≤ 11 kW, rapport puissance/poids ≤ 0,1 kW/kg." },
+
+  { id: 'A18', theme: 'A',
+    prompt: "La catégorie AM (cyclomoteur) est accessible à partir de :",
+    choices: ['12 ans', '14 ans', '16 ans', '18 ans'],
+    correct: [1],
+    explanation: "Le permis AM (ex-BSR) est accessible dès 14 ans pour les cyclomoteurs ≤ 50 cm³ limités à 45 km/h." },
+
+  { id: 'A19', theme: 'A',
+    prompt: "Un excès de vitesse inférieur à 20 km/h hors agglomération entraîne :",
+    choices: ['Aucune sanction', '68 € et 1 point retiré', '135 € et 3 points', 'Suspension de permis'],
+    correct: [1],
+    explanation: "< 20 km/h hors agglo : 68 € et 1 point. De 20 à 29 km/h : 135 € et 2 points. De 30 à 39 km/h : 135 € et 3 points." },
+
+  { id: 'A20', theme: 'A',
+    prompt: "La vitesse maximale d'un cyclomoteur AM sur toutes voies est :",
+    choices: ['45 km/h', '50 km/h', '80 km/h', '90 km/h'],
+    correct: [0],
+    explanation: "Les cyclomoteurs sont limités à 45 km/h sur toutes les voies, y compris hors agglomération et voies rapides si autorisées." },
+
+  { id: 'A21', theme: 'A',
+    prompt: "Conduire sans casque homologué est sanctionné de :",
+    choices: ['35 € et 0 point', '135 € et 3 points', '375 € et 6 points', '750 € et 6 points'],
+    correct: [1],
+    explanation: "Non-port du casque (conducteur ou passager) : 135 € et 3 points retirés. Le casque doit être attaché ; casque non attaché = même sanction." },
+
+  { id: 'A22', theme: 'A',
+    prompt: "Une moto peut-elle circuler sur une piste cyclable ?",
+    choices: ['Oui toujours', 'Non, sauf si un panneau l\'y autorise expressément', 'Oui si < 125 cm³', 'Oui en agglo uniquement'],
+    correct: [1],
+    explanation: "Pistes et bandes cyclables réservées aux cycles. Une moto ne peut les emprunter que si un panonceau l'y autorise (très rare). Infraction : 135 €." },
+
+  { id: 'A23', theme: 'A',
+    prompt: "Le permis A (toutes cylindrées) en accès direct est possible à :",
+    choices: ['18 ans', '21 ans', '24 ans', '25 ans'],
+    correct: [2],
+    explanation: "Accès direct permis A à 24 ans. Avant 24 ans, seul le parcours A2→A (2 ans + 7 h) est possible." },
+
+  // B — Le conducteur
+  { id: 'B15', theme: 'B',
+    prompt: "La caféine peut-elle annuler les effets de la fatigue ?",
+    choices: ['Oui, complètement', 'Partiellement et temporairement seulement', 'Non, pas du tout', 'Oui si > 3 tasses'],
+    correct: [1],
+    explanation: "La caféine retarde la fatigue mais ne la supprime pas. L'effet s'estompe et peut laisser place à un effondrement brutal. Seul le sommeil guérit la fatigue." },
+
+  { id: 'B16', theme: 'B',
+    prompt: "La forte chaleur lors d'une longue randonnée moto peut provoquer :",
+    choices: ['Un surplus d\'énergie', 'Déshydratation et baisse de vigilance', 'Aucun effet si on porte un casque intégral', 'Uniquement de l\'inconfort'],
+    correct: [1],
+    explanation: "Chaleur + EPI complets = transpiration intense, déshydratation, concentration réduite. S'hydrater régulièrement, faire des pauses à l'ombre, éviter les heures les plus chaudes." },
+
+  { id: 'B17', theme: 'B',
+    prompt: "La 'vision en tunnel' à grande vitesse se caractérise par :",
+    choices: ['Une meilleure vision centrale', 'Un rétrécissement du champ visuel périphérique', 'Une double vision', 'Aucun effet'],
+    correct: [1],
+    explanation: "À grande vitesse, le cerveau focalise sur la zone centrale. La vision périphérique se rétrécit, diminuant la capacité à détecter les dangers latéraux (angle mort accru)." },
+
+  { id: 'B18', theme: 'B',
+    prompt: "Des fourmillements dans les mains après 2 heures de route imposent :",
+    choices: ['D\'accélérer pour finir vite', 'De s\'arrêter, se détendre et faire des exercices des mains', 'De changer juste de position des mains', 'De les ignorer'],
+    correct: [1],
+    explanation: "Fourmillements = compression nerveuse ou mauvaise circulation. Pause obligatoire : lâcher le guidon, faire des exercices de mobilité des mains, des poignets et des épaules." },
+
+  { id: 'B19', theme: 'B',
+    prompt: "Rouler juste après un repas copieux peut induire :",
+    choices: ['Un gain d\'énergie', 'Une somnolence post-prandiale et des réflexes ralentis', 'Une meilleure concentration', 'Aucun effet'],
+    correct: [1],
+    explanation: "La digestion mobilise du sang vers l'estomac, pouvant provoquer une somnolence. Préférer un repas léger avant de prendre la moto ; faire une courte pause après manger." },
+
+  { id: 'B20', theme: 'B',
+    prompt: "L'usage d'un GPS audio intégré au casque :",
+    choices: ['Est totalement sans risque', 'Doit rester minimal (guidage vocal) sans détourner le regard de la route', 'Est interdit sur moto', 'Doit remplacer tout autre repérage'],
+    correct: [1],
+    explanation: "GPS vocal dans le casque : utile si bien réglé à l'avance. Regarder fréquemment un écran dévie le regard de la route. Régler le guidage avant de partir, pas en roulant." },
+
+  { id: 'B21', theme: 'B',
+    prompt: "La pression sociale en groupe de motards peut :",
+    choices: ['Améliorer la prudence collective', 'Augmenter la prise de risque (désir d\'impressionner)', 'Être sans effet sur la conduite individuelle', 'Réduire la vitesse globale'],
+    correct: [1],
+    explanation: "En groupe, la pression de rivalité pousse à dépasser ses limites. Chaque motard doit garder son propre rythme et sa propre prudence, indépendamment du groupe." },
+
+  // C — La route
+  { id: 'C34', theme: 'C',
+    prompt: "En agglomération par temps de pluie, la vitesse maximale :",
+    choices: ['Reste à 50 km/h', 'Passe à 40 km/h', 'Passe à 30 km/h', 'Passe à 45 km/h'],
+    correct: [0],
+    explanation: "La pluie ne modifie pas la limite en agglomération (50 km/h). Elle modifie la limite sur autoroute (130→110) et sur route hors agglo (80 reste 80 en France)." },
+
+  { id: 'C35', theme: 'C',
+    prompt: "Un feu orange clignotant (sans feu rouge fixe) à une intersection signifie :",
+    choices: ['Arrêt obligatoire', 'Traverser avec prudence, priorité à droite', 'Accélérer pour passer', 'Voie barrée'],
+    correct: [1],
+    explanation: "Feu orange clignotant : mode attention — la priorité à droite s'applique. Réduire la vitesse, regarder des deux côtés, être prêt à céder le passage." },
+
+  { id: 'C36', theme: 'C',
+    prompt: "La bande d'arrêt d'urgence (BAU) sur autoroute est réservée :",
+    choices: ['Aux dépassements rapides', 'Aux pannes et urgences uniquement', 'Aux motos en circulation inter-files', 'Aux véhicules > 130 km/h'],
+    correct: [1],
+    explanation: "La BAU est exclusivement réservée aux pannes, accidents et véhicules de secours. Y circuler intentionnellement = 135 € + retrait de 3 points." },
+
+  { id: 'C37', theme: 'C', sign: 'virage-droite',
+    prompt: "Ce panneau triangulaire annonce :",
+    choices: ['Voie sans issue', 'Virage dangereux à droite', 'Sens unique', 'Route barrée'],
+    correct: [1],
+    explanation: "Triangle rouge avec courbe : virage dangereux à droite. Réduire la vitesse avant, aborder en trajectoire de sécurité (regard loin, freinage avant le virage, accélération en sortie)." },
+
+  { id: 'C38', theme: 'C',
+    prompt: "La règle des 2 secondes de distance de sécurité doit être portée à 4 secondes :",
+    choices: ['Jamais, 2 secondes suffisent toujours', 'Par pluie, brouillard, chaussée dégradée', 'Uniquement la nuit', 'Sur autoroute uniquement'],
+    correct: [1],
+    explanation: "Par temps sec : 2 s. Par pluie ou chaussée glissante : au moins 4 s. La règle pratique : choisir un repère fixe et compter 2 s après le passage du véhicule devant." },
+
+  { id: 'C39', theme: 'C',
+    prompt: "En cas de verglas ou de neige, la meilleure décision pour un motard est :",
+    choices: ['Équiper la moto de chaînes', 'Ne pas prendre la moto — ces conditions sont très dangereuses', 'Rouler à 20 km/h avec beaucoup de précaution', 'Surgonfler les pneus'],
+    correct: [1],
+    explanation: "La moto n'a que deux roues et son équilibre repose sur l'adhérence. Sur verglas ou neige, même à très basse vitesse, la chute est quasi inévitable. Eviter de sortir à moto." },
+
+  { id: 'C40', theme: 'C',
+    prompt: "Les tabliers de pont gèlent plus rapidement que le reste de la route car :",
+    choices: ['Ils sont plus exposés au soleil', 'L\'air circule des deux côtés, accélérant le refroidissement', 'Ils sont construits en matériaux différents', 'Ils ont moins de trafic'],
+    correct: [1],
+    explanation: "Les ponts sont refroidis par-dessus et par-dessous. Ils atteignent la température de gel avant la route classique. Vigilance accrue dès les premiers froids." },
+
+  { id: 'C41', theme: 'C',
+    prompt: "Le dépassement est interdit lorsque :",
+    choices: ['Il y a une ligne discontinue', 'La ligne est continue ou que la visibilité est insuffisante', 'Il y a un virage à gauche', 'Il fait nuit'],
+    correct: [1],
+    explanation: "Ligne continue = dépassement interdit. Même avec une ligne discontinue, le dépassement est interdit si la visibilité est insuffisante ou si une intersection est proche." },
+
+  { id: 'C42', theme: 'C',
+    prompt: "Sur autoroute, la vitesse minimale sur la voie gauche est de :",
+    choices: ['70 km/h', '80 km/h', '90 km/h', 'Aucune'],
+    correct: [1],
+    explanation: "80 km/h minimum sur la voie gauche d'autoroute, par bonne visibilité et hors bouchon. Rouler trop lentement sur la file de gauche = obstacle et infraction." },
+
+  // D — Les autres usagers
+  { id: 'D15', theme: 'D',
+    prompt: "Dépasser un bus scolaire à l'arrêt avec ses feux de détresse allumés impose :",
+    choices: ['Une vitesse réduite à 20 km/h', 'Une prudence maximale — des enfants peuvent surgir de part et d\'autre', 'L\'arrêt complet obligatoire', 'Aucune précaution spéciale'],
+    correct: [1],
+    explanation: "Bus scolaire à l'arrêt = enfants pouvant surgir des deux côtés du bus. Ralentir nettement, regarder actif, prêt à freiner immédiatement." },
+
+  { id: 'D16', theme: 'D',
+    prompt: "Franchir des rails de tramway à moto doit se faire :",
+    choices: ['En accélérant pour passer vite', 'Perpendiculairement (90°), sans freiner dessus', 'En prenant la trajectoire oblique pour le confort', 'En évitant toujours les rails'],
+    correct: [1],
+    explanation: "Les rails sont très glissants. Franchir perpendiculairement, ni accélérer ni freiner dessus, moto bien droite. En virage, les rails peuvent piéger la roue." },
+
+  { id: 'D17', theme: 'D',
+    prompt: "À l'approche d'une école à 8h du matin, le motard doit :",
+    choices: ['Accélérer pour passer avant les enfants', 'Réduire à 30 km/h max et anticiper des piétons ou enfants traversant', 'Ne rien changer si la rue est limitée à 50 km/h', 'Klaxonner pour avertir'],
+    correct: [1],
+    explanation: "Abords d'école aux heures de pointe scolaire : ralentir à 30 km/h, regard actif, anticiper les enfants surgissant entre les voitures en stationnement." },
+
+  { id: 'D18', theme: 'D',
+    prompt: "En cas d'accident avec blessés, la première obligation est :",
+    choices: ['Repartir pour ne pas gêner la circulation', 'Sécuriser la zone, alerter le 15/18/112, porter secours', 'Transporter immédiatement les blessés', 'Réparer les véhicules'],
+    correct: [1],
+    explanation: "Non-assistance à personne en danger = délit. Sécuriser (balises, gilet), appeler les secours (112), ne pas déplacer un blessé sauf danger vital immédiat." },
+
+  { id: 'D19', theme: 'D',
+    prompt: "Rouler en groupe de motos :",
+    choices: ['Donne la priorité au groupe', 'Améliore la visibilité collective mais chaque motard garde sa propre distance', 'Permet de supprimer la distance de sécurité', 'Réduit les obligations de signalisation'],
+    correct: [1],
+    explanation: "Un groupe de motos est plus visible, mais chaque motard reste responsable de sa propre sécurité : distance individuelle, vitesse personnelle, équipements." },
+
+  { id: 'D20', theme: 'D',
+    prompt: "Vous apercevez une personne âgée hésitant à traverser hors passage piéton :",
+    choices: ['Accélérer — elle n\'est pas prioritaire', 'Ralentir et lui laisser la possibilité de traverser en sécurité', 'Klaxonner pour lui indiquer qu\'elle est en tort', 'Ignorer'],
+    correct: [1],
+    explanation: "Piéton vulnérable hors passage : bien qu'il ne soit pas prioritaire, la prudence et l'humanité imposent de ralentir et de lui laisser traverser. Sécurité > droit strict." },
+
+  { id: 'D21', theme: 'D',
+    prompt: "Un angle mort d'une voiture :",
+    choices: ['N\'existe pas avec les rétroviseurs modernes', 'Peut cacher une moto — éviter de s\'y maintenir', 'Se situe uniquement à l\'avant du véhicule', 'Ne concerne pas les motos'],
+    correct: [1],
+    explanation: "Zone 3/4 arrière : angle mort classique. Les rétroviseurs réduisent l'angle mort mais ne l'éliminent pas. La moto doit éviter de stationner dans l'angle mort d'un véhicule." },
+
+  // E — Réglementation générale
+  { id: 'E12', theme: 'E',
+    prompt: "Le contrôle technique d'une moto mise en circulation en 2019 est obligatoire pour la première fois en :",
+    choices: ['2020', '2022', '2024', '2026'],
+    correct: [2],
+    explanation: "CT moto : 1ère visite 5 ans après mise en circulation, puis tous les 3 ans. Une moto de 2019 → 1er CT en 2024." },
+
+  { id: 'E13', theme: 'E',
+    prompt: "Pour circuler légalement, une moto doit au minimum posséder :",
+    choices: ['Un phare avant uniquement', 'Feux avant/arrière, feu stop, clignotants, plaque éclairée', 'Un phare et un klaxon', 'Juste une plaque et une assurance'],
+    correct: [1],
+    explanation: "Équipements lumineux obligatoires : feu de croisement, feu arrière, stop, clignotants avant et arrière, plaque éclairée. Défaut = immobilisation possible." },
+
+  { id: 'E14', theme: 'E',
+    prompt: "Le montant maximal de l'amende judiciaire pour défaut d'assurance est :",
+    choices: ['500 €', '1 500 €', '3 750 €', '7 500 €'],
+    correct: [2],
+    explanation: "Défaut d'assurance : amende jusqu'à 3 750 € en procédure judiciaire (forfait 500 €) + confiscation du véhicule possible." },
+
+  { id: 'E15', theme: 'E',
+    prompt: "La responsabilité civile (RC) couvre :",
+    choices: ['Les dommages à votre moto', 'Les dommages causés aux tiers lors d\'un accident', 'Votre propre corps en cas de chute', 'Le vol de la moto'],
+    correct: [1],
+    explanation: "La RC couvre les dommages matériels et corporels que vous causez à autrui. Vos propres dommages (corporels et matériels) relèvent de garanties optionnelles (conducteur, tous risques)." },
+
+  { id: 'E16', theme: 'E',
+    prompt: "Transformer une moto A2 en moto A (débridage) nécessite :",
+    choices: ['Juste enlever les vis du bridage', 'D\'obtenir d\'abord le permis A, puis de faire débridier par un concessionnaire agréé', 'D\'attendre 2 ans peu importe le permis', 'Aucune démarche particulière'],
+    correct: [1],
+    explanation: "Débridage sans permis A = moto non homologuée + assurance nulle en cas de sinistre. Le débridage doit être réalisé par un professionnel agréé sur présentation du permis A." },
+
+  { id: 'E17', theme: 'E',
+    prompt: "Circuler en ZFE-m sans vignette Crit'Air valide est puni de :",
+    choices: ['Aucune sanction actuelle', '68 €', '135 €', '375 €'],
+    correct: [1],
+    explanation: "Absence de vignette Crit'Air en ZFE : 68 € (contravention 3e classe). Vignette commandée sur certificat-air.gouv.fr (~4 €) et valable à vie." },
+
+  { id: 'E18', theme: 'E',
+    prompt: "La tromperie sur le kilométrage lors de la vente d'une moto d'occasion est :",
+    choices: ['Un simple litige commercial', 'Un délit sanctionné pénalement', 'Sans conséquence juridique', 'Une simple contravention'],
+    correct: [1],
+    explanation: "Tromperie sur kilométrage = délit de tromperie (jusqu'à 2 ans + 300 000 €). Carnet d'entretien, CT et historique permettent de vérifier." },
+
+  // F — Quitter le véhicule
+  { id: 'F11', theme: 'F',
+    prompt: "Le stationnement d'une moto sur le trottoir est autorisé :",
+    choices: ['Toujours, les motos sont petites', 'Uniquement dans des emplacements matérialisés pour 2RM', 'Dans les 50 cm de toute entrée carrossable', 'La nuit uniquement'],
+    correct: [1],
+    explanation: "Moto sur trottoir sans emplacement dédié : 135 € + enlèvement possible. Certaines villes matérialisent des emplacements 2RM sur les trottoirs larges." },
+
+  { id: 'F12', theme: 'F',
+    prompt: "Stationner une moto à cheval sur deux emplacements est :",
+    choices: ['Autorisé si les deux places sont libres', 'Interdit — la moto doit occuper un seul emplacement', 'Autorisé avec une note sur le guidon', 'Autorisé si la moto pèse moins de 100 kg'],
+    correct: [1],
+    explanation: "Une moto doit stationner dans un seul emplacement. En pratique, plusieurs motos peuvent partager un emplacement voiture en file." },
+
+  { id: 'F13', theme: 'F',
+    prompt: "Stationner une moto thermique devant une borne de recharge électrique est :",
+    choices: ['Toujours autorisé', 'Interdit : ces emplacements sont réservés aux véhicules électriques', 'Autorisé hors heures de pointe', 'Sans conséquence'],
+    correct: [1],
+    explanation: "Borne de recharge = emplacement réservé aux véhicules électriques. Stationner un 2RM thermique dessus = stationnement très gênant (135 €)." },
+
+  { id: 'F14', theme: 'F',
+    prompt: "Avant de quitter sa moto dans un parking souterrain, il faut :",
+    choices: ['Laisser tourner le moteur', 'Couper le contact et s\'assurer de l\'absence de fuite de carburant', 'Mettre le frein moteur', 'Enlever les clignotants'],
+    correct: [1],
+    explanation: "Parking fermé : vapeurs d'essence explosive, CO toxique. Couper le contact obligatoire. Béquille centrale recommandée sur sol plat. Antivol conseillé." },
+
+  { id: 'F15', theme: 'F',
+    prompt: "Une place PMR (personne à mobilité réduite) peut-elle être utilisée par une moto sans macaron ?",
+    choices: ['Oui si la moto est petite', 'Non, réservée exclusivement aux titulaires de la carte CMI', 'Oui la nuit', 'Oui si aucune autre place n\'est disponible'],
+    correct: [1],
+    explanation: "Emplacements PMR : exclusivement réservés aux titulaires de la carte mobilité inclusion. Stationner sans droit = 135 € + 3 points." },
+
+  { id: 'F16', theme: 'F',
+    prompt: "La combinaison antivol la plus efficace pour une moto est :",
+    choices: ['Un antivol électronique seul', 'Bloque-disque SRA + chaîne ou U passé dans le cadre et fixé à un élément fixe', 'Un gros cadenas sur la roue', 'Le blocage de direction seul'],
+    correct: [1],
+    explanation: "Deux verrous de natures différentes homologués SRA découragent les voleurs. La chaîne doit être passée dans le cadre (et non simplement autour de la roue) pour éviter de charger la moto." },
+
+  // G — Mécanique & sécurité
+  { id: 'G18', theme: 'G',
+    prompt: "Le niveau d'huile moteur se vérifie :",
+    choices: ['Uniquement au contrôle technique', 'Avant chaque départ ou tous les 1 000 km, à froid et sur béquille centrale', 'Uniquement après une chute', 'Jamais sur les motos modernes à injection'],
+    correct: [1],
+    explanation: "Vérification du niveau d'huile : moto à plat (béquille centrale), moteur froid (5 min minimum). Lire la jauge ou l'hublot lateral entre MIN et MAX." },
+
+  { id: 'G19', theme: 'G',
+    prompt: "Des disques de frein fortement rainurés ou voilés indiquent :",
+    choices: ['Une patine normale par température', 'Une usure excessive — remplacement nécessaire', 'Un problème de plaquettes seulement', 'Un frein trop froid'],
+    correct: [1],
+    explanation: "Disques rainurés en profondeur ou voilés : épaisseur sous le minimum légal, risque d'accrochage des plaquettes. Remplacement obligatoire avant de rouler." },
+
+  { id: 'G20', theme: 'G',
+    prompt: "Une batterie moto laissée sans entretien plusieurs mois en hivernage :",
+    choices: ['Garde sa charge indéfiniment', 'Se décharge et se sulfate — connecter un maintien de charge', 'Se charge seule en déconnectant le câble négatif', 'Ne nécessite aucune précaution'],
+    correct: [1],
+    explanation: "Batterie au plomb inactive : décharge lente puis sulfatation irréversible. Un mainteneur de charge (trickle charger) maintient la batterie en bon état pendant l'hivernage." },
+
+  { id: 'G21', theme: 'G',
+    prompt: "Un wobble (oscillation du guidon à grande vitesse) peut être dû à :",
+    choices: ['Un excès de carburant', 'Un pneu sous-gonflé ou une roue non équilibrée', 'Un freinage trop doux', 'Un problème de chaîne'],
+    correct: [1],
+    explanation: "Le wobble (shimmy) : pneu sous-gonflé, roue mal équilibrée, roulements usés ou guidon mal serré. Lever le pied progressivement, pas de freinage brutal, aller chez un mécanicien." },
+
+  { id: 'G22', theme: 'G',
+    prompt: "Le voyant de réserve d'essence allumé permet généralement encore de rouler :",
+    choices: ['0 km — arrêt immédiat', 'Entre 20 et 50 km selon le modèle', 'Plus de 200 km', 'Le voyant est juste indicatif'],
+    correct: [1],
+    explanation: "La réserve = généralement 1 à 2 L, soit 20 à 50 km selon la cylindrée et le style de conduite. Chercher une station rapidement ; tomber en panne sur autoroute = danger." },
+
+  // H — Équipements de protection
+  { id: 'H16', theme: 'H',
+    prompt: "Le casque de type jet (ouvert) par rapport à l'intégral :",
+    choices: ['Est interdit sur route', 'Offre une protection moindre au menton et au visage', 'Est aussi protecteur qu\'un intégral', 'Est réservé aux cyclomoteurs'],
+    correct: [1],
+    explanation: "Le jet ne protège pas le menton (zones fracturées dans 35 % des accidents). L'intégral ou le systéme (modulable fermé) offre une protection complète." },
+
+  { id: 'H17', theme: 'H',
+    prompt: "Les protections CE niveau 2 comparées au niveau 1 :",
+    choices: ['Ne diffèrent que par la couleur', 'Offrent une meilleure absorption d\'énergie d\'impact', 'Sont plus légères', 'Sont réservées aux pilotes de course'],
+    correct: [1],
+    explanation: "Niveau 2 EN 1621-1 : force transmise max 50 kN, vs 35 kN moyenne pour le niveau 1. Les protections niveau 2 sont recommandées aux genoux, hanches et coudes." },
+
+  { id: 'H18', theme: 'H',
+    prompt: "Les bottes moto doivent impérativement :",
+    choices: ['Couvrir juste les orteils', 'Couvrir et maintenir les malléoles avec anti-torsion', 'Couvrir tout le mollet', 'Couvrir le genou uniquement'],
+    correct: [1],
+    explanation: "Protection minimale cheville : malléoles couvertes, anti-torsion, semelle antidérapante. En cas de chute, l'entorse et la fracture de cheville sont très fréquentes sans protection." },
+
+  { id: 'H19', theme: 'H',
+    prompt: "Un airbag moto (gilet ou blouson) :",
+    choices: ['Est obligatoire depuis 2020', 'Est fortement recommandé ; réduit les lésions thoraciques et cervicales', 'Remplace le casque si homologué', 'Est interdit sur route'],
+    correct: [1],
+    explanation: "Airbag moto (mécanique ou électronique) : non obligatoire mais très efficace pour réduire les lésions thoraciques, claviculaires et cervicales. Certains assureurs accordent des remises." },
+
+  { id: 'H20', theme: 'H',
+    prompt: "Une visière fumée peut-elle être utilisée la nuit ?",
+    choices: ['Oui, pour réduire les éblouissements', 'Non, elle est interdite et très dangereuse la nuit', 'Oui si elle est transparente au niveau 3', 'Oui si associée à des lunettes de vue'],
+    correct: [1],
+    explanation: "Visière fumée de nuit : interdite et très dangereuse (vision réduite de 80 %). Visière claire obligatoire la nuit. Pour le jour : niveau optique homologué seulement." },
+
+  { id: 'H21', theme: 'H',
+    prompt: "Les vêtements rétro-réfléchissants (bandes réfléchissantes) :",
+    choices: ['Sont obligatoires la nuit depuis 2022', 'Améliorent significativement la visibilité de nuit et sont fortement recommandés', 'Sont inutiles car le phare suffit', 'Sont réservés aux motards professionnels'],
+    correct: [1],
+    explanation: "Bandes réfléchissantes non obligatoires sur route mais très efficaces : un conducteur voit un motard équipé bien avant un motard en noir. Réduisent significativement le risque de collision nocturne." },
+
+  // I — Environnement
+  { id: 'I12', theme: 'I',
+    prompt: "Une moto électrique en agglomération :",
+    choices: ['Émet autant de bruit qu\'une moto thermique', 'Émet peu de bruit et zéro gaz d\'échappement, classe Crit\'Air 0', 'Produit plus de CO2 qu\'une moto thermique', 'A les mêmes restrictions ZFE'],
+    correct: [1],
+    explanation: "Moto électrique : silencieuse, zéro émission à l'usage, Crit'Air 0. Elle circule dans toutes les ZFE. Son bilan carbone global dépend de la source d'électricité." },
+
+  { id: 'I13', theme: 'I',
+    prompt: "Un radar sonore (type Méduse ou Hydre) mesure :",
+    choices: ['La vitesse uniquement', 'Le niveau sonore des véhicules pour potentiellement verbaliser les plus bruyants', 'La pollution atmosphérique', 'Le poids du véhicule'],
+    correct: [1],
+    explanation: "Radars sonores : mesurent le bruit des passages. Dépassement du seuil + caméra plaque → verbalisation possible pour modification non homologuée ou conduite agressive." },
+
+  { id: 'I14', theme: 'I',
+    prompt: "Le SP95-E10 est compatible avec :",
+    choices: ['Toutes les motos', 'Les motos compatibles E10 mentionnées dans le manuel', 'Uniquement les voitures', 'Aucun 2-roues'],
+    correct: [1],
+    explanation: "SP95-E10 (10 % d'éthanol) peut endommager les joints et durites des motos non compatibles. Vérifier le carnet d'entretien. En cas de doute, utiliser SP98 ou SP95-E5." },
+
+  { id: 'I15', theme: 'I',
+    prompt: "La conduite préventive à moto consiste principalement à :",
+    choices: ['Freiner au dernier moment', 'Anticiper les situations à risque avant qu\'elles deviennent critiques', 'Rouler toujours au milieu de la voie', 'Utiliser le klaxon en toutes circonstances'],
+    correct: [1],
+    explanation: "Conduite préventive = lecture active de la route, identification des zones de danger, adaptation de la vitesse et de la position avant que la situation ne devienne dangereuse." },
+
+  { id: 'I16', theme: 'I',
+    prompt: "L'entretien régulier (filtre air, bougies, injecteurs) d'une moto permet :",
+    choices: ['Uniquement de prolonger la durée de vie', 'De préserver les performances, réduire la consommation et les émissions', 'De réduire le bruit uniquement', 'D\'augmenter la puissance'],
+    correct: [1],
+    explanation: "Entretien = rendement optimal : moins de carburant brûlé, moins d'émissions polluantes. Un filtre bouché ou des bougies usées dégradent la combustion et augmentent la pollution." },
+
+  { id: 'I17', theme: 'I',
+    prompt: "Laisser le moteur tourner au ralenti plus de 30 secondes avant de partir :",
+    choices: ['Est nécessaire pour le moteur', 'Est inutile et polluant sur un moteur à injection moderne', 'Est obligatoire par temps froid', 'Améliore la durée de vie du moteur'],
+    correct: [1],
+    explanation: "Moteurs modernes à injection : pas besoin de chauffe prolongée au ralenti. Démarrer et rouler doucement les premiers kilomètres suffit. Ralenti prolongé = consommation et pollution inutiles." },
+
+  { id: 'I18', theme: 'I',
+    prompt: "Un pneu hors d'usage doit être :",
+    choices: ['Jeté dans les ordures ménagères', 'Rapporté dans un point de collecte agréé (revendeur, déchèterie)', 'Brûlé pour éliminer les déchets', 'Laissé dans la nature'],
+    correct: [1],
+    explanation: "Pneus usagés = déchets réglementés. Le réseau ALIAPUR collecte gratuitement les pneus chez les distributeurs. Brûler un pneu est un délit environnemental." }
 ];

@@ -14,12 +14,14 @@ type Screen =
   | { name: 'quiz'; questions: Question[]; mode: 'train' | 'exam'; title: string; chrono: boolean }
   | { name: 'results'; answers: Answer[]; questions: Question[]; mode: 'train' | 'exam'; title: string }
   | { name: 'review-errors' }
-  | { name: 'stats' };
+  | { name: 'stats' }
+  | { name: 'ai-assistant' };
 
 const CHRONO_SECONDS = 20;
 const EXAM_SIZE = 40;
 const EXAM_MAX_ERRORS = 5;
 const LIC_KEY = 'codemoto.license.v1';
+const AI_KEY = 'codemoto.gemini-key.v1';
 
 const errKey = (lic: License) => `codemoto.errors.${lic}.v1`;
 const statsKey = (lic: License) => `codemoto.stats.${lic}.v1`;
@@ -134,6 +136,7 @@ export default function App() {
           onExam={() => setScreen({ name: 'exam-config' })}
           onReview={() => setScreen({ name: 'review-errors' })}
           onStats={() => setScreen({ name: 'stats' })}
+          onAI={() => setScreen({ name: 'ai-assistant' })}
         />
       )}
 
@@ -221,6 +224,13 @@ export default function App() {
         />
       )}
 
+      {screen.name === 'ai-assistant' && (
+        <AIAssistant
+          license={license}
+          onBack={() => setScreen({ name: 'home' })}
+        />
+      )}
+
       <footer className="mt-10 text-center text-xs text-slate-500">
         Banque de questions à titre éducatif. Vérifiez les règles en vigueur sur les sites officiels (securite-routiere.gouv.fr, shom.fr).
       </footer>
@@ -280,13 +290,14 @@ const HOME_NAMES: Record<License, string> = {
   bateau: 'permis côtier',
 };
 
-function Home({ license, errorCount, onTrain, onExam, onReview, onStats }: {
+function Home({ license, errorCount, onTrain, onExam, onReview, onStats, onAI }: {
   license: License;
   errorCount: number;
   onTrain: () => void;
   onExam: () => void;
   onReview: () => void;
   onStats: () => void;
+  onAI: () => void;
 }) {
   return (
     <div className="space-y-3">
@@ -307,6 +318,7 @@ function Home({ license, errorCount, onTrain, onExam, onReview, onStats }: {
           disabled={errorCount === 0}
         />
         <Tile title="Statistiques" subtitle="Taux de réussite par thème" onClick={onStats} accent="bg-emerald-500" />
+        <Tile title="Assistant IA" subtitle="Pose tes questions à Gemini (clé API gratuite)" onClick={onAI} accent="bg-violet-500" />
       </div>
     </div>
   );
@@ -627,6 +639,187 @@ function ReviewErrors({ bank, errors, onStart, onClear, onBack }: {
           <button onClick={onClear} className="w-full p-2 text-xs text-slate-400 underline">
             Effacer mon carnet d'erreurs
           </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+const LICENSE_CONTEXT: Record<License, string> = {
+  moto: 'le code de la route moto (ETM) en France',
+  voiture: 'le code de la route voiture (ETG/permis B) en France',
+  'poids-lourds': 'le permis poids lourds (CQC/FIMO) en France, incluant la réglementation sociale, le tachygraphe, l\'ADR et le freinage spécifique',
+  bateau: 'le permis bateau côtier (permis plaisance côtier) en France, incluant le balisage AISM, les règles COLREG/RIPAM, la météorologie maritime et la navigation',
+};
+
+type ChatMessage = { role: 'user' | 'assistant'; text: string };
+
+async function askGemini(apiKey: string, messages: ChatMessage[], newMessage: string, license: License): Promise<string> {
+  const systemPrompt = `Tu es un assistant pédagogique spécialisé dans ${LICENSE_CONTEXT[license]}. Réponds en français, de façon claire et concise. Tu peux expliquer les règles, les panneaux, les signaux, les manœuvres et les réglementations. Si la question est hors sujet, redirige poliment vers le domaine du permis.`;
+
+  const contents = [
+    ...messages.map(m => ({
+      role: m.role === 'user' ? 'user' : 'model',
+      parts: [{ text: m.text }],
+    })),
+    { role: 'user', parts: [{ text: newMessage }] },
+  ];
+
+  const res = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: systemPrompt }] },
+        contents,
+        generationConfig: { maxOutputTokens: 512, temperature: 0.7 },
+      }),
+    }
+  );
+
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    const msg = (err as { error?: { message?: string } }).error?.message || res.statusText;
+    throw new Error(msg);
+  }
+
+  const data = await res.json() as { candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }> };
+  return data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || '(Réponse vide)';
+}
+
+function AIAssistant({ license, onBack }: { license: License; onBack: () => void }) {
+  const [apiKey, setApiKey] = useState(() => localStorage.getItem(AI_KEY) || '');
+  const [keyInput, setKeyInput] = useState(apiKey);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const bottomRef = { current: null as HTMLDivElement | null };
+
+  function saveKey() {
+    const k = keyInput.trim();
+    localStorage.setItem(AI_KEY, k);
+    setApiKey(k);
+    setError('');
+  }
+
+  async function send() {
+    const text = input.trim();
+    if (!text || !apiKey || loading) return;
+    setInput('');
+    setError('');
+    const next: ChatMessage[] = [...messages, { role: 'user', text }];
+    setMessages(next);
+    setLoading(true);
+    try {
+      const reply = await askGemini(apiKey, messages, text, license);
+      setMessages([...next, { role: 'assistant', text: reply }]);
+    } catch (e) {
+      setError((e as Error).message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="flex flex-col gap-3 h-full">
+      <button onClick={onBack} className="text-xs text-slate-400">← retour</button>
+      <h2 className="text-xl font-bold">Assistant IA</h2>
+
+      {!apiKey ? (
+        <div className="space-y-3 p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <p className="text-sm text-slate-300">
+            Connecte-toi à <span className="text-violet-400 font-semibold">Google Gemini</span> (gratuit) pour poser des questions sur ton permis.
+          </p>
+          <ol className="text-xs text-slate-400 space-y-1 list-decimal list-inside">
+            <li>Rends-toi sur <span className="text-violet-300">aistudio.google.com</span></li>
+            <li>Clique sur <em>Get API key</em> → <em>Create API key</em></li>
+            <li>Copie la clé et colle-la ci-dessous</li>
+          </ol>
+          <input
+            type="password"
+            placeholder="AIza…"
+            value={keyInput}
+            onChange={e => setKeyInput(e.target.value)}
+            className="w-full px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm font-mono focus:outline-none focus:border-violet-500"
+          />
+          <button
+            onClick={saveKey}
+            disabled={!keyInput.trim()}
+            className="w-full py-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-sm font-semibold"
+          >
+            Enregistrer la clé
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="flex items-center justify-between text-xs text-slate-500">
+            <span>Clé enregistrée · {LICENSE_CONTEXT[license].split(' ')[3] || license}</span>
+            <button onClick={() => { setApiKey(''); setKeyInput(''); localStorage.removeItem(AI_KEY); }} className="underline">
+              Changer la clé
+            </button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto space-y-3 min-h-[200px] max-h-[380px] pr-1">
+            {messages.length === 0 && (
+              <p className="text-xs text-slate-500 text-center mt-8">
+                Pose une question sur ton permis — règles, signaux, manœuvres…
+              </p>
+            )}
+            {messages.map((m, i) => (
+              <div key={i} className={`flex ${m.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[85%] px-3 py-2 rounded-2xl text-sm whitespace-pre-wrap ${
+                  m.role === 'user'
+                    ? 'bg-violet-600 text-white rounded-br-sm'
+                    : 'bg-slate-800 text-slate-100 rounded-bl-sm'
+                }`}>
+                  {m.text}
+                </div>
+              </div>
+            ))}
+            {loading && (
+              <div className="flex justify-start">
+                <div className="bg-slate-800 px-3 py-2 rounded-2xl rounded-bl-sm text-sm text-slate-400 animate-pulse">
+                  Gemini réfléchit…
+                </div>
+              </div>
+            )}
+            {error && (
+              <div className="text-xs text-rose-400 text-center p-2 bg-rose-950 rounded-lg">
+                Erreur : {error}
+              </div>
+            )}
+            <div ref={el => { bottomRef.current = el; }} />
+          </div>
+
+          <div className="flex gap-2">
+            <input
+              type="text"
+              placeholder="Ta question…"
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && !e.shiftKey && send()}
+              disabled={loading}
+              className="flex-1 px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-sm focus:outline-none focus:border-violet-500 disabled:opacity-50"
+            />
+            <button
+              onClick={send}
+              disabled={!input.trim() || loading}
+              className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 disabled:opacity-40 text-sm font-semibold"
+            >
+              Envoyer
+            </button>
+          </div>
+
+          {messages.length > 0 && (
+            <button
+              onClick={() => setMessages([])}
+              className="text-xs text-slate-500 underline text-center"
+            >
+              Nouvelle conversation
+            </button>
+          )}
         </>
       )}
     </div>
